@@ -34,13 +34,25 @@ header {
     align-items: center;
 }
 
-.logo-section h1 {
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.kemenag-logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+.text-section h1 {
     font-size: 2em;
     color: #2E7D32;
     margin-bottom: 5px;
 }
 
-.logo-section p {
+.text-section p {
     font-size: 0.9em;
     color: #666;
 }
@@ -108,7 +120,7 @@ nav a:hover {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 25px;
     margin-bottom: 50px;
 }
@@ -304,7 +316,17 @@ footer p {
         flex-wrap: wrap;
     }
 
-    .logo-section h1 {
+    .logo-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .kemenag-logo {
+        height: 50px;
+    }
+
+    .text-section h1 {
         font-size: 1.5em;
     }
 
@@ -372,11 +394,19 @@ footer p {
         padding: 15px 0;
     }
 
-    .logo-section h1 {
+    .logo-group {
+        width: 100%;
+    }
+
+    .kemenag-logo {
+        height: 45px;
+    }
+
+    .text-section h1 {
         font-size: 1.3em;
     }
 
-    .logo-section p {
+    .text-section p {
         font-size: 0.8em;
     }
 
@@ -427,5 +457,17 @@ footer p {
 
     .section-title {
         font-size: 1.8em;
+    }
+
+    .logo-group {
+        gap: 12px;
+    }
+
+    .kemenag-logo {
+        height: 55px;
+    }
+
+    .text-section h1 {
+        font-size: 1.7em;
     }
 }
