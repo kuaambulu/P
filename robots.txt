@@ -3,7 +3,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /private/
 
-Sitemap: https://username.github.io/nama-repository/sitemap.xml
+Sitemap: https:////kuaambulu.github.io/P/sitemap.xml
 
 # Google Bot
 User-agent: Googlebot
