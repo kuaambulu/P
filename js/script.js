@@ -1,11 +1,11 @@
 // Toggle menu untuk mobile
 document.getElementById('menu-toggle').addEventListener('click', function() {
     const navMenu = document.getElementById('nav-menu');
-    navMenu.classList.toggle('show');
+    navMenu.classList.toggle('active');
 });
 
 // Smooth scroll untuk navigasi
-document.querySelectorAll('nav ul li a').forEach(anchor => {
+document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
@@ -13,7 +13,6 @@ document.querySelectorAll('nav ul li a').forEach(anchor => {
         if (targetSection) {
             targetSection.scrollIntoView({ behavior: 'smooth' });
         }
-        // Tutup menu setelah klik di mobile
-        document.getElementById('nav-menu').classList.remove('show');
+        document.getElementById('nav-menu').classList.remove('active');
     });
 });
