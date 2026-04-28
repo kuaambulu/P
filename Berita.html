@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Berita dan informasi terbaru dari Kemenag Kabupaten Jember dan KUA Ambulu.">
+    <meta name="keywords" content="Berita KUA Ambulu, Kemenag Jember, Informasi Agama, Jember">
+    <meta name="author" content="KUA Ambulu">
+    <meta property="og:title" content="Berita - KUA Ambulu">
+    <meta property="og:description" content="Berita dan informasi terbaru dari Kemenag Kabupaten Jember dan KUA Ambulu">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kuaambulu.github.io/P/berita.html">
+    <meta name="robots" content="index, follow">
+    <title>Berita | KUA Ambulu - Kantor Urusan Agama Ambulu Jember</title>
+    <link rel="icon" type="image/png" href="https://kuaambulu.github.io/SIKEN9/asset/Icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="canonical" href="https://kuaambulu.github.io/P/berita.html">
+    <style>
+        /* ===== BERITA PAGE STYLES ===== */
+        .page-hero {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 0 40px;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .page-hero h2 {
+            font-size: 2.4em;
+            color: #2E7D32;
+            margin-bottom: 12px;
+        }
+        .page-hero p {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .breadcrumb a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb .sep { color: #ccc; }
+
+        /* ===== NEWS GRID ===== */
+        .news-section {
+            padding: 0 0 60px;
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        /* ===== NEWS CARD ===== */
+        .news-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        .news-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+        }
+        .news-card-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5em;
+            color: #4CAF50;
+            flex-shrink: 0;
+        }
+        .news-card-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .news-card-body {
+            padding: 22px 22px 18px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .news-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .news-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            background: #e8f5e9;
+            color: #2E7D32;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .news-date {
+            font-size: 0.82em;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .news-card-title {
+            font-size: 1.08em;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .news-card-excerpt {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .news-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .news-source {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8em;
+            color: #888;
+        }
+        .news-source img {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+        .news-read-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.25s, transform 0.2s;
+        }
+        .news-read-btn:hover {
+            background: linear-gradient(135deg, #388e3c, #2E7D32);
+            transform: scale(1.04);
+        }
+
+        /* ===== EMPTY / COMING SOON ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            background: rgba(255,255,255,0.92);
+            border-radius: 14px;
+            color: #888;
+        }
+        .empty-state i {
+            font-size: 3em;
+            color: #c8e6c9;
+            margin-bottom: 16px;
+        }
+        .empty-state p { font-size: 1.05em; }
+
+        /* ===== SECTION LABEL ===== */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .section-label h3 {
+            font-size: 1.5em;
+            color: white;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+        }
+        .section-label-line {
+            flex: 1;
+            height: 2px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 2px;
+        }
+        .news-count-badge {
+            background: rgba(255,255,255,0.25);
+            color: white;
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.82em;
+            font-weight: 600;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .page-hero h2 { font-size: 1.6em; }
+            .news-grid { grid-template-columns: 1fr; gap: 18px; }
+            .news-card-thumbnail { height: 170px; }
+        }
+        @media (max-width: 480px) {
+            .page-hero { padding: 35px 15px 28px; margin-top: 12px; }
+            .page-hero h2 { font-size: 1.35em; }
+            .news-card-body { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-group">
+                        <img src="https://kuaambulu.github.io/SIKEN9/asset/logo.png" alt="Logo Kemenag" class="kemenag-logo">
+                        <div class="text-section">
+                            <h1>KUA Ambulu</h1>
+                            <p>Pelayanan Kantor Urusan Agama - Satu Pintu</p>
+                        </div>
+                    </div>
+                </div>
+                <nav id="nav-menu">
+                    <a href="index.html">Beranda</a>
+                    <a href="index.html#layanan">Layanan</a>
+                    <a href="index.html#informasi">Informasi</a>
+                    <a href="berita.html" style="color:#4CAF50; font-weight:700; border-bottom:2px solid #4CAF50; padding-bottom:2px;">Berita</a>
+                    <a href="index.html#kontak">Kontak</a>
+                </nav>
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <!-- Page Hero -->
+            <section class="page-hero">
+                <i class="fas fa-newspaper" style="font-size:2.5em; color:#4CAF50; margin-bottom:14px; display:block;"></i>
+                <h2>Berita & Informasi Terkini</h2>
+                <p>Berita resmi dari Kemenag Kabupaten Jember dan KUA Ambulu</p>
+            </section>
+
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="breadcrumb">
+                <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+                <span class="sep"><i class="fas fa-chevron-right"></i></span>
+                <span>Berita</span>
+            </nav>
+
+            <!-- News Section -->
+            <section class="news-section">
+                <div class="section-label">
+                    <h3><i class="fas fa-rss" style="margin-right:8px;"></i>Berita Terbaru</h3>
+                    <div class="section-label-line"></div>
+                    <span class="news-count-badge" id="news-count">1 Berita</span>
+                </div>
+
+                <div class="news-grid" id="news-grid">
+
+                    <!-- ============================================================ -->
+                    <!-- BERITA 1                                                      -->
+                    <!-- ============================================================ -->
+                    <div class="news-card" onclick="window.open('https://jember.kemenag.go.id/post/wujudkan-layanan-nikah-tanpa-pungli-kemenag-jember-mantapkan-inovasi-sgra-nikah-melalui-monev-triwulan-i-tahun-2025', '_blank')" role="button" tabindex="0" aria-label="Baca berita tentang S'GRA NIKAH">
+                        <div class="news-card-thumbnail">
+                            <img 
+                                src="https://jember.kemenag.go.id/media/photos/1. Panji AF/69f02c00be70c.png" 
+                                alt="S'GRA NIKAH Kemenag Jember"
+                                onerror="this.parentElement.innerHTML='<i class=\'fas fa-newspaper\'></i>'"
+                            >
+                        </div>
+                        <div class="news-card-body">
+                            <div class="news-card-meta">
+                                <span class="news-badge">Layanan Nikah</span>
+                                <span class="news-date"><i class="fas fa-calendar-alt"></i> 2025</span>
+                            </div>
+                            <h2 class="news-card-title">
+                                Wujudkan Layanan Nikah Tanpa Pungli, Kemenag Jember Mantapkan Inovasi S'GRA NIKAH Melalui Monev Triwulan I Tahun 2025
+                            </h2>
+                            <p class="news-card-excerpt">
+                                Kantor Kementerian Agama Kabupaten Jember merilis Laporan Monitoring dan Evaluasi (Monev) Triwulan I Tahun 2025 terkait program inovasi unggulan S'GRA NIKAH (Stop Gratifikasi – Sigap Layanan Nikah). Seluruh ASN KUA se-Kabupaten Jember berikrar menolak gratifikasi dan menegaskan layanan nikah di KUA pada jam kerja adalah Rp0,- (Gratis).
+                            </p>
+                            <div class="news-card-footer">
+                                <span class="news-source">
+                                    <i class="fas fa-globe" style="color:#4CAF50;"></i>
+                                    Kemenag Kab. Jember
+                                </span>
+                                <a 
+                                    href="https://jember.kemenag.go.id/post/wujudkan-layanan-nikah-tanpa-pungli-kemenag-jember-mantapkan-inovasi-sgra-nikah-melalui-monev-triwulan-i-tahun-2025" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    class="news-read-btn"
+                                    onclick="event.stopPropagation()"
+                                >
+                                    Baca Selengkapnya <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <!-- TAMBAH BERITA BARU DI BAWAH INI                              -->
+                    <!-- Duplikat blok di atas dan ubah link, judul, dan deskripsinya -->
+                    <!-- ============================================================ -->
+
+                </div><!-- /#news-grid -->
+            </section>
+
+        </div><!-- /.container -->
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><strong>KUA Ambulu</strong> - Kantor Urusan Agama</p>
+            <p>Bersih Melayani, Santun, Inovatif, Akuntabel, dan Ramah</p>
+            <p>&copy; 2025 KUA Ambulu. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            document.getElementById('nav-menu').classList.toggle('active');
+        });
+
+        // Update news count badge dynamically
+        const cards = document.querySelectorAll('#news-grid .news-card');
+        const countEl = document.getElementById('news-count');
+        if (countEl) {
+            countEl.textContent = cards.length + ' Berita';
+        }
+
+        // Keyboard accessibility for cards
+        document.querySelectorAll('.news-card[role="button"]').forEach(card => {
+            card.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
