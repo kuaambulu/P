@@ -171,10 +171,35 @@ document.querySelectorAll('.filter-chip').forEach(btn=>{
     });
 });
 let _st;document.getElementById('search-input').addEventListener('input',e=>{clearTimeout(_st);_st=setTimeout(()=>{_searchTerm=e.target.value.trim().toLowerCase();applyFilters();},300);});
-(async function load(){
-    const cfg=JSON.parse(localStorage.getItem('kua_fb_config')||'null');
-    const grid=document.getElementById('news-grid');
-    if(!cfg){grid.innerHTML=`<div class="state-box" style="grid-column:1/-1"><i class="fas fa-exclamation-circle" style="color:#FCD34D"></i><p>Konfigurasi Firebase belum tersedia.<br>Hubungkan melalui <a href="admin/" style="color:#4CAF50;font-weight:700;">halaman Admin</a>.</p></div>`;return;}
+(async function load() {
+    // GANTI baris localStorage dengan konfigurasi langsung
+    const cfg = {
+        apiKey: "AIzaSyAef2BIk7gGpifJt3bJig1U9JqPjfoNRUA",
+        authDomain: "web-kua-ambulu.firebaseapp.com",
+        projectId: "web-kua-ambulu",
+        storageBucket: "web-kua-ambulu.firebasestorage.app",
+        messagingSenderId: "903594923486",
+        appId: "1:903594923486:web:4be9a4d3de54e13cb4394f"
+    };
+
+    const grid = document.getElementById('news-grid'); // atau container detail berita
+    
+    try {
+        const app = initializeApp(cfg, 'detail-page');
+        const db = getFirestore(app);
+        
+        // Ambil ID dari URL
+        const params = new URLSearchParams(window.location.search);
+        const postId = params.get('id');
+
+        // Kode untuk mengambil dokumen berdasarkan ID...
+        // const docRef = doc(db, "posts", postId);
+        // ...
+    } catch(e) {
+        console.error(e);
+        // Tampilkan pesan error ke user
+    }
+})();
     try{
         const app=initializeApp(cfg,'berita-page');
         const db=getFirestore(app);
