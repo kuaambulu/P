@@ -422,7 +422,7 @@
     }
 
     (async function loadTeaser() {
-        const cfg = JSON.parse(localStorage.getItem('kua_fb_config') || 'null');
+        import { firebaseConfig } from "./js/firebase-config.js";
         if (!cfg) {
             document.getElementById('teaser-list').innerHTML = '';
             document.getElementById('teaser-empty').style.display = 'block';
