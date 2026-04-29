@@ -466,13 +466,22 @@ select.form-control { cursor: pointer; }
   overflow-y: auto;
 }
 .editor-area:focus { border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(76,175,80,.15); }
-.editor-area [contenteditable] { outline: none; }
-/* Placeholder for contenteditable */
 .editor-area:empty::before {
   content: attr(data-placeholder);
   color: var(--ink-4);
   pointer-events: none;
 }
+/* Styling untuk gambar yang disisipkan di dalam editor */
+.editor-area img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 10px 0;
+  display: block;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+.editor-area img:hover { border-color: var(--green-500); }
 
 /* Image upload zone */
 .upload-zone {
@@ -820,7 +829,6 @@ select.form-control { cursor: pointer; }
   overflow: hidden;
 }
 
-/* animated background */
 .login-bg {
   position: absolute;
   inset: 0;
@@ -835,7 +843,6 @@ select.form-control { cursor: pointer; }
     radial-gradient(circle at 20% 20%, rgba(76,175,80,.18) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(129,199,132,.12) 0%, transparent 50%);
 }
-/* floating rings */
 .login-ring {
   position: absolute;
   border-radius: 50%;
@@ -850,7 +857,6 @@ select.form-control { cursor: pointer; }
   50%      { transform: scale(1.06) rotate(8deg); opacity:1; }
 }
 
-/* card */
 .login-card {
   position: relative;
   z-index: 1;
@@ -868,7 +874,6 @@ select.form-control { cursor: pointer; }
   to   { opacity:1; transform:translateY(0) scale(1); }
 }
 
-/* logo */
 .login-logo-wrap {
   display: flex;
   align-items: center;
@@ -898,25 +903,16 @@ select.form-control { cursor: pointer; }
   color: var(--ink-3);
 }
 
-/* heading */
-.login-heading {
-  margin-bottom: 24px;
-}
+.login-heading { margin-bottom: 24px; }
 .login-heading h1 {
   font-size: 1.35em;
   font-weight: 800;
   color: var(--ink);
   margin-bottom: 3px;
 }
-.login-heading p {
-  font-size: .82em;
-  color: var(--ink-3);
-}
+.login-heading p { font-size: .82em; color: var(--ink-3); }
 
-/* input groups */
-.login-field {
-  margin-bottom: 16px;
-}
+.login-field { margin-bottom: 16px; }
 .login-field label {
   display: block;
   font-size: .78em;
@@ -925,9 +921,7 @@ select.form-control { cursor: pointer; }
   margin-bottom: 7px;
   letter-spacing: .02em;
 }
-.login-input-wrap {
-  position: relative;
-}
+.login-input-wrap { position: relative; }
 .login-input-icon {
   position: absolute;
   left: 13px;
@@ -954,10 +948,6 @@ select.form-control { cursor: pointer; }
   border-color: var(--green-500);
   box-shadow: 0 0 0 3px rgba(76,175,80,.14);
 }
-.login-input:focus + .login-input-icon,
-.login-input-wrap:focus-within .login-input-icon {
-  color: var(--green-500);
-}
 .login-input::placeholder { color: var(--ink-4); }
 .pass-toggle {
   position: absolute;
@@ -975,7 +965,6 @@ select.form-control { cursor: pointer; }
 }
 .pass-toggle:hover { color: var(--ink-2); }
 
-/* submit */
 .btn-login {
   width: 100%;
   padding: 12px;
@@ -1003,7 +992,6 @@ select.form-control { cursor: pointer; }
 }
 .btn-login:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
-/* error */
 .login-error {
   display: none;
   align-items: center;
@@ -1019,7 +1007,6 @@ select.form-control { cursor: pointer; }
 }
 .login-error.show { display: flex; }
 
-/* footer link */
 .login-footer {
   text-align: center;
   margin-top: 22px;
@@ -1048,14 +1035,7 @@ select.form-control { cursor: pointer; }
   color: var(--ink);
   min-height: 200px;
 }
-.preview-pane h2 { font-size: 1.25em; font-weight: 800; margin-bottom: 8px; color: var(--ink); }
-.preview-pane .preview-meta {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-.preview-pane .preview-meta span { font-size: .78em; color: var(--ink-4); }
+.preview-pane img { max-width: 100%; border-radius: 8px; margin: 10px 0; }
 
 /* ══════════════════════════════════════════════
    PROGRESS BAR
@@ -1072,6 +1052,49 @@ select.form-control { cursor: pointer; }
   background: var(--green-500);
   border-radius: 4px;
   transition: width .4s ease;
+}
+
+/* ══════════════════════════════════════════════
+   INSERT IMAGE MODAL (fitur baru)
+══════════════════════════════════════════════ */
+#img-insert-modal .modal { max-width: 520px; }
+.img-insert-preview {
+  margin-top: 12px;
+  display: none;
+}
+.img-insert-preview img {
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  object-fit: contain;
+}
+.img-align-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.align-btn {
+  flex: 1;
+  padding: 7px 0;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink-3);
+  font-size: .8em;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--font);
+  transition: all var(--transition);
+}
+.align-btn.selected, .align-btn:hover {
+  border-color: var(--green-500);
+  background: var(--green-50);
+  color: var(--green-700);
 }
 
 /* ══════════════════════════════════════════════
@@ -1093,7 +1116,6 @@ select.form-control { cursor: pointer; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .topbar { padding: 0 16px; }
   .login-card { padding: 28px 20px; }
-  .setup-card { padding: 24px 18px; }
 }
 </style>
 </head>
@@ -1110,8 +1132,6 @@ select.form-control { cursor: pointer; }
   </div>
 
   <div class="login-card">
-
-    <!-- Logo + brand -->
     <div class="login-logo-wrap">
       <div class="login-logo-img">
         <img src="https://kuaambulu.github.io/SIKEN9/asset/logo.png" alt="Logo KUA"
@@ -1123,13 +1143,11 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
 
-    <!-- Heading -->
     <div class="login-heading">
       <h1>Masuk Admin</h1>
       <p>Kelola berita dan konten website KUA Ambulu</p>
     </div>
 
-    <!-- Username -->
     <div class="login-field">
       <label for="login-email">Username</label>
       <div class="login-input-wrap">
@@ -1139,7 +1157,6 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
 
-    <!-- Password -->
     <div class="login-field">
       <label for="login-pass">Password</label>
       <div class="login-input-wrap">
@@ -1153,66 +1170,18 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
 
-    <!-- Submit -->
     <button class="btn-login" onclick="doLogin()" id="login-btn" type="button">
       <i class="fas fa-sign-in-alt"></i> Masuk
     </button>
 
-    <!-- Error -->
     <div id="login-error" class="login-error">
       <i class="fas fa-exclamation-circle"></i>
       <span id="login-error-msg"></span>
     </div>
 
-    <!-- Footer: setup link (tersembunyi, hanya untuk keperluan teknis) -->
     <div class="login-footer">
-      <a onclick="showSetup()" tabindex="-1">Konfigurasi Firebase</a>
+      <a href="../index.html">← Kembali ke Website</a>
     </div>
-
-  </div>
-</div>
-
-<!-- ════════════════════════════════════
-     SETUP SCREEN (hanya muncul jika belum ada config)
-════════════════════════════════════ -->
-<div id="setup-screen" style="display:none; position:fixed; inset:0; background:linear-gradient(135deg,var(--green-900),#1b4332); z-index:8999; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
-  <div style="background:white; border-radius:20px; padding:36px; width:100%; max-width:540px; box-shadow:var(--shadow-lg);">
-    <h2 style="font-size:1.25em;font-weight:800;margin-bottom:6px;">⚙️ Konfigurasi Firebase</h2>
-    <p style="font-size:.84em;color:var(--ink-3);margin-bottom:22px;">Masukkan konfigurasi Firebase project Anda. Hanya perlu diisi sekali.</p>
-    <div class="form-row">
-      <div class="form-group">
-        <label>API Key <span class="req">*</span></label>
-        <input id="cfg-apiKey" class="form-control" placeholder="AIzaSy...">
-      </div>
-      <div class="form-group">
-        <label>Auth Domain <span class="req">*</span></label>
-        <input id="cfg-authDomain" class="form-control" placeholder="project.firebaseapp.com">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Project ID <span class="req">*</span></label>
-        <input id="cfg-projectId" class="form-control" placeholder="my-project-id">
-      </div>
-      <div class="form-group">
-        <label>Storage Bucket</label>
-        <input id="cfg-storageBucket" class="form-control" placeholder="project.appspot.com">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Messaging Sender ID</label>
-        <input id="cfg-messagingSenderId" class="form-control" placeholder="123456789">
-      </div>
-      <div class="form-group">
-        <label>App ID <span class="req">*</span></label>
-        <input id="cfg-appId" class="form-control" placeholder="1:123:web:abc...">
-      </div>
-    </div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;margin-top:4px;" onclick="saveFirebaseConfig()">
-      <i class="fas fa-save"></i> Simpan &amp; Lanjutkan
-    </button>
-    <div id="setup-error" style="display:none;background:#FEF2F2;color:#991B1B;border-radius:8px;padding:10px 14px;font-size:.82em;margin-top:12px;"></div>
   </div>
 </div>
 
@@ -1268,7 +1237,6 @@ select.form-control { cursor: pointer; }
 
   <!-- MAIN -->
   <div class="main">
-    <!-- TOPBAR -->
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-menu-toggle" onclick="toggleSidebar()">
@@ -1286,7 +1254,6 @@ select.form-control { cursor: pointer; }
       </div>
     </header>
 
-    <!-- CONTENT -->
     <div class="content">
 
       <!-- ── PANEL: DASHBOARD ── -->
@@ -1407,6 +1374,10 @@ select.form-control { cursor: pointer; }
                   <div class="toolbar-sep"></div>
                   <button class="tb-btn" onclick="insertBlockquote()" title="Kutipan"><i class="fas fa-quote-right"></i></button>
                   <button class="tb-btn" onclick="insertLink()" title="Tautan"><i class="fas fa-link"></i></button>
+                  <!-- ★ TOMBOL BARU: Sisipkan gambar via URL eksternal -->
+                  <button class="tb-btn" onclick="openImgInsertModal()" title="Sisipkan Gambar dari URL">
+                    <i class="fas fa-image"></i>
+                  </button>
                   <div class="toolbar-sep"></div>
                   <button class="tb-btn" onclick="execCmd('justifyLeft')" title="Kiri"><i class="fas fa-align-left"></i></button>
                   <button class="tb-btn" onclick="execCmd('justifyCenter')" title="Tengah"><i class="fas fa-align-center"></i></button>
@@ -1418,10 +1389,10 @@ select.form-control { cursor: pointer; }
 
                 <!-- Editable area -->
                 <div id="post-body-editor" class="editor-area" contenteditable="true"
-                     data-placeholder="Mulai mengetik isi berita di sini... Gunakan toolbar di atas untuk memformat teks.">
+                     data-placeholder="Mulai mengetik isi berita di sini... Gunakan toolbar di atas untuk memformat teks atau sisipkan gambar.">
                 </div>
 
-                <!-- Preview area (hidden by default) -->
+                <!-- Preview area -->
                 <div id="post-body-preview" class="preview-pane" style="display:none;border-radius:0;border-top:none;"></div>
               </div>
             </div>
@@ -1593,13 +1564,10 @@ select.form-control { cursor: pointer; }
         <div class="card" style="max-width:560px;margin-top:18px;">
           <div class="card-header"><h3>Firebase Config</h3></div>
           <div class="card-body">
-            <div class="alert alert-warning" style="margin-bottom:16px;">
-              <i class="fas fa-exclamation-triangle"></i>
-              <span>Mengubah konfigurasi akan logout otomatis.</span>
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i>
+              <span>Konfigurasi Firebase dikelola melalui file <code style="font-family:var(--mono);background:var(--surface-3);padding:1px 6px;border-radius:4px;">js/firebase-config.js</code> di repository.</span>
             </div>
-            <button class="btn btn-danger" onclick="resetConfig()">
-              <i class="fas fa-trash"></i> Reset Konfigurasi Firebase
-            </button>
           </div>
         </div>
       </div>
@@ -1634,90 +1602,108 @@ select.form-control { cursor: pointer; }
   </div>
 </div>
 
+<!-- ══════════════════════════════════════
+     MODAL: SISIPKAN GAMBAR VIA URL (fitur baru)
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="img-insert-modal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-image" style="margin-right:8px;color:var(--green-500);"></i>Sisipkan Gambar ke Isi Berita</h3>
+      <button class="modal-close" onclick="closeImgInsertModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>URL Gambar <span class="req">*</span></label>
+        <input id="img-insert-url" class="form-control" type="url"
+               placeholder="https://example.com/foto.jpg"
+               oninput="previewInsertImg()">
+        <div class="form-hint">Gunakan link langsung ke file gambar (jpg, png, webp, dll).</div>
+      </div>
+
+      <!-- Preview -->
+      <div class="img-insert-preview" id="img-insert-preview">
+        <label style="margin-bottom:6px;">Preview</label>
+        <img id="img-insert-preview-img" src="" alt="Preview gambar"
+             onerror="document.getElementById('img-insert-error').style.display='flex';this.style.display='none'">
+        <div id="img-insert-error" style="display:none;align-items:center;gap:8px;padding:10px 14px;background:#FEF2F2;color:#991B1B;border:1px solid #FECACA;border-radius:8px;font-size:.82em;margin-top:8px;">
+          <i class="fas fa-exclamation-circle"></i> URL tidak valid atau gambar tidak dapat dimuat.
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:0;margin-top:14px;">
+        <label>Teks Alternatif (Alt)</label>
+        <input id="img-insert-alt" class="form-control" placeholder="Deskripsi singkat gambar...">
+        <div class="form-hint">Digunakan oleh screen-reader dan SEO.</div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="margin-bottom:6px;">Perataan Gambar</label>
+        <div class="img-align-group">
+          <button class="align-btn selected" data-align="none" onclick="selectAlign(this,'none')">
+            <i class="fas fa-image"></i> Normal
+          </button>
+          <button class="align-btn" data-align="left" onclick="selectAlign(this,'left')">
+            <i class="fas fa-align-left"></i> Kiri
+          </button>
+          <button class="align-btn" data-align="center" onclick="selectAlign(this,'center')">
+            <i class="fas fa-align-center"></i> Tengah
+          </button>
+          <button class="align-btn" data-align="right" onclick="selectAlign(this,'right')">
+            <i class="fas fa-align-right"></i> Kanan
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeImgInsertModal()">Batal</button>
+      <button class="btn btn-primary" onclick="doInsertImage()">
+        <i class="fas fa-image"></i> Sisipkan Gambar
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST CONTAINER -->
 <div id="toast-container"></div>
 
 <!-- ════════════════════════════════════
-     SCRIPTS — Firebase + App Logic
+     SCRIPTS — Firebase SDK + App Logic
+     PERBAIKAN: Tidak lagi menggunakan localStorage untuk config Firebase.
+     Config diimport langsung dari js/firebase-config.js (satu tingkat ke atas).
 ════════════════════════════════════ -->
-
-<!-- Firebase SDK (CDN) -->
 <script type="module">
 import { initializeApp }                        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword,
          signOut, onAuthStateChanged }           from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, addDoc,
          getDocs, doc, updateDoc, deleteDoc,
-         query, orderBy, limit, serverTimestamp,
+         query, orderBy, serverTimestamp,
          getDoc }                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* ── Globals ── */
-window._fb  = {};   // firebase instances
+/* ── Import config dari file terpusat — tidak ada localStorage ── */
+import { firebaseConfig } from "../js/firebase-config.js";
+
+/* ── Global state ── */
 window._app = {
   posts: [],
-  filteredPosts: [],
   editingId: null,
   tags: [],
   uploadedImageData: null,
   deleteTargetId: null,
   previewMode: false,
+  imgInsertAlign: 'none',
+  savedEditorRange: null,
 };
 
 /* ══════════════════════════
-   CONFIG HELPERS
+   INIT FIREBASE (langsung, tanpa setup screen)
 ══════════════════════════ */
-window.getStoredConfig = () => {
-  try { return JSON.parse(localStorage.getItem('kua_fb_config') || 'null'); }
-  catch { return null; }
-};
-
-window.saveFirebaseConfig = () => {
-  const cfg = {
-    apiKey:            document.getElementById('cfg-apiKey').value.trim(),
-    authDomain:        document.getElementById('cfg-authDomain').value.trim(),
-    projectId:         document.getElementById('cfg-projectId').value.trim(),
-    storageBucket:     document.getElementById('cfg-storageBucket').value.trim(),
-    messagingSenderId: document.getElementById('cfg-messagingSenderId').value.trim(),
-    appId:             document.getElementById('cfg-appId').value.trim(),
-  };
-  if (!cfg.apiKey || !cfg.authDomain || !cfg.projectId || !cfg.appId) {
-    const el = document.getElementById('setup-error');
-    el.textContent = 'API Key, Auth Domain, Project ID, dan App ID wajib diisi.';
-    el.style.display = 'block';
-    return;
-  }
-  localStorage.setItem('kua_fb_config', JSON.stringify(cfg));
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  initFirebase(cfg);
-};
-
-window.showSetup = () => {
-  document.getElementById('login-screen').style.display = 'none';
-  const s = document.getElementById('setup-screen');
-  s.style.display = 'flex';
-  const cfg = getStoredConfig();
-  if (cfg) {
-    document.getElementById('cfg-apiKey').value            = cfg.apiKey || '';
-    document.getElementById('cfg-authDomain').value        = cfg.authDomain || '';
-    document.getElementById('cfg-projectId').value         = cfg.projectId || '';
-    document.getElementById('cfg-storageBucket').value     = cfg.storageBucket || '';
-    document.getElementById('cfg-messagingSenderId').value = cfg.messagingSenderId || '';
-    document.getElementById('cfg-appId').value             = cfg.appId || '';
-  }
-};
-
-
-
-/* ══════════════════════════
-   INIT FIREBASE
-══════════════════════════ */
-function initFirebase(cfg) {
+function initFirebase() {
   try {
-    const app   = initializeApp(cfg);
-    const auth  = getAuth(app);
-    const db    = getFirestore(app);
-    window._fb  = { app, auth, db };
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+    window._fb = { app, auth, db };
 
     onAuthStateChanged(auth, user => {
       if (user) {
@@ -1734,7 +1720,7 @@ function initFirebase(cfg) {
       }
     });
   } catch(e) {
-    showToast('Konfigurasi Firebase tidak valid: ' + e.message, 'error');
+    showToast('Inisialisasi Firebase gagal: ' + e.message, 'error');
   }
 }
 
@@ -1814,24 +1800,23 @@ window.savePost = async (status) => {
   const imageUrl = document.getElementById('post-image-url').value.trim();
 
   if (!title)    { showToast('Judul berita wajib diisi.', 'error'); return; }
-  if (!body || body === '')   { showToast('Isi berita tidak boleh kosong.', 'error'); return; }
+  if (!body)     { showToast('Isi berita tidak boleh kosong.', 'error'); return; }
   if (!excerpt)  { showToast('Ringkasan berita wajib diisi.', 'error'); return; }
   if (!category) { showToast('Pilih kategori berita.', 'error'); return; }
 
   const slug = slugify(title);
   const db   = window._fb.db;
 
-  // Show progress
   document.getElementById('save-progress-card').style.display = 'block';
   document.getElementById('save-progress-label').textContent  = status === 'published' ? 'Mempublikasikan...' : 'Menyimpan draft...';
   setProgress(30);
 
   const data = {
     title, body, excerpt, category, author, slug, status,
-    tags:       window._app.tags,
-    imageUrl:   window._app.uploadedImageData || imageUrl || '',
-    date:       dateVal || new Date().toISOString().split('T')[0],
-    updatedAt:  serverTimestamp(),
+    tags:      window._app.tags,
+    imageUrl:  window._app.uploadedImageData || imageUrl || '',
+    date:      dateVal || new Date().toISOString().split('T')[0],
+    updatedAt: serverTimestamp(),
   };
 
   try {
@@ -1859,43 +1844,40 @@ window.savePost = async (status) => {
 };
 
 window.editPost = async (id) => {
-  const db  = window._fb.db;
-  const ref = doc(db, 'posts', id);
-  const snap = await getDoc(ref);
+  const db   = window._fb.db;
+  const snap = await getDoc(doc(db, 'posts', id));
   if (!snap.exists()) { showToast('Berita tidak ditemukan.', 'error'); return; }
   const d = snap.data();
 
   window._app.editingId = id;
-  document.getElementById('post-title').value    = d.title   || '';
-  document.getElementById('post-body-editor').innerHTML = d.body || '';
-  document.getElementById('post-excerpt').value  = d.excerpt  || '';
-  document.getElementById('post-category').value = d.category || '';
-  document.getElementById('post-author').value   = d.author   || '';
-  document.getElementById('post-date').value     = d.date     || '';
-  document.getElementById('post-image-url').value = (d.imageUrl && !d.imageUrl.startsWith('data:')) ? d.imageUrl : '';
+  document.getElementById('post-title').value              = d.title   || '';
+  document.getElementById('post-body-editor').innerHTML    = d.body    || '';
+  document.getElementById('post-excerpt').value            = d.excerpt || '';
+  document.getElementById('post-category').value           = d.category || '';
+  document.getElementById('post-author').value             = d.author   || '';
+  document.getElementById('post-date').value               = d.date     || '';
+  document.getElementById('post-image-url').value          = (d.imageUrl && !d.imageUrl.startsWith('data:')) ? d.imageUrl : '';
+
   if (d.imageUrl && d.imageUrl.startsWith('data:')) {
     document.getElementById('upload-preview-img').src = d.imageUrl;
     document.getElementById('upload-preview').style.display = 'block';
     window._app.uploadedImageData = d.imageUrl;
   }
 
-  // Tags
   window._app.tags = d.tags || [];
   renderTags();
   updateSlug();
-  updateCharCount('post-title','title-count',100);
-  updateCharCount('post-excerpt','excerpt-count',200);
+  updateCharCount('post-title','title-count',150);
+  updateCharCount('post-excerpt','excerpt-count',300);
   document.getElementById('post-form-title').textContent = 'Edit Berita';
-
   showPanel('new-post');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 window.toggleStatus = async (id, currentStatus) => {
   const newStatus = currentStatus === 'published' ? 'draft' : 'published';
-  const db = window._fb.db;
   try {
-    await updateDoc(doc(db, 'posts', id), { status: newStatus, updatedAt: serverTimestamp() });
+    await updateDoc(doc(window._fb.db, 'posts', id), { status: newStatus, updatedAt: serverTimestamp() });
     showToast(newStatus === 'published' ? 'Berita dipublikasikan.' : 'Berita dijadikan draft.', 'success');
     loadPosts();
   } catch(e) {
@@ -1942,7 +1924,7 @@ function renderStats() {
   document.getElementById('stat-published').textContent = published;
   document.getElementById('stat-draft').textContent     = draft;
   const latest = posts[0];
-  document.getElementById('stat-latest').textContent     = latest ? latest.title.substring(0,20) + (latest.title.length > 20 ? '…' : '') : '—';
+  document.getElementById('stat-latest').textContent      = latest ? latest.title.substring(0,20) + (latest.title.length > 20 ? '…' : '') : '—';
   document.getElementById('stat-latest-date').textContent = latest ? formatDate(latest.date) : '—';
 }
 
@@ -1974,7 +1956,7 @@ window.renderPostsList = () => {
   el.innerHTML = posts.map(p => postListItemHTML(p, true)).join('');
 };
 
-function postListItemHTML(p, showAll = false) {
+function postListItemHTML(p) {
   const thumb = p.imageUrl
     ? `<div class="post-thumb"><img src="${p.imageUrl.substring(0,200)}" alt="" onerror="this.style.display='none'"></div>`
     : `<div class="post-thumb"><i class="fas fa-newspaper"></i></div>`;
@@ -2011,8 +1993,8 @@ function postListItemHTML(p, showAll = false) {
 /* ══════════════════════════
    FILTERS
 ══════════════════════════ */
-window.filterPosts     = () => renderPostsList();
-window.filterByStatus  = () => renderPostsList();
+window.filterPosts      = () => renderPostsList();
+window.filterByStatus   = () => renderPostsList();
 window.filterByCategory = () => renderPostsList();
 
 /* ══════════════════════════
@@ -2033,6 +2015,114 @@ window.insertLink = () => {
   if (url) document.execCommand('createLink', false, url);
 };
 
+/* ── Simpan posisi kursor sebelum membuka modal gambar ── */
+function saveEditorSelection() {
+  const editor = document.getElementById('post-body-editor');
+  editor.focus();
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) {
+    window._app.savedEditorRange = sel.getRangeAt(0).cloneRange();
+  }
+}
+
+/* ── Restore posisi kursor ── */
+function restoreEditorSelection() {
+  const range = window._app.savedEditorRange;
+  if (!range) return;
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+/* ══════════════════════════════════════════
+   FITUR BARU: SISIPKAN GAMBAR VIA URL EKSTERNAL
+══════════════════════════════════════════ */
+window.openImgInsertModal = () => {
+  /* Simpan posisi kursor dulu sebelum modal terbuka */
+  saveEditorSelection();
+
+  /* Reset modal */
+  document.getElementById('img-insert-url').value      = '';
+  document.getElementById('img-insert-alt').value      = '';
+  document.getElementById('img-insert-preview').style.display = 'none';
+  document.getElementById('img-insert-error').style.display   = 'none';
+  document.getElementById('img-insert-preview-img').style.display = 'block';
+
+  /* Reset alignment */
+  document.querySelectorAll('.align-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.align-btn[data-align="none"]').classList.add('selected');
+  window._app.imgInsertAlign = 'none';
+
+  document.getElementById('img-insert-modal').classList.add('open');
+  setTimeout(() => document.getElementById('img-insert-url').focus(), 150);
+};
+
+window.closeImgInsertModal = () => {
+  document.getElementById('img-insert-modal').classList.remove('open');
+};
+
+window.previewInsertImg = () => {
+  const url      = document.getElementById('img-insert-url').value.trim();
+  const preview  = document.getElementById('img-insert-preview');
+  const img      = document.getElementById('img-insert-preview-img');
+  const errEl    = document.getElementById('img-insert-error');
+
+  if (!url) { preview.style.display = 'none'; return; }
+
+  preview.style.display   = 'block';
+  img.style.display       = 'block';
+  errEl.style.display     = 'none';
+  img.src = url;
+
+  img.onerror = () => {
+    img.style.display  = 'none';
+    errEl.style.display = 'flex';
+  };
+  img.onload = () => {
+    img.style.display  = 'block';
+    errEl.style.display = 'none';
+  };
+};
+
+window.selectAlign = (btn, align) => {
+  document.querySelectorAll('.align-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  window._app.imgInsertAlign = align;
+};
+
+window.doInsertImage = () => {
+  const url   = document.getElementById('img-insert-url').value.trim();
+  const alt   = document.getElementById('img-insert-alt').value.trim();
+  const align = window._app.imgInsertAlign;
+
+  if (!url) {
+    showToast('Masukkan URL gambar terlebih dahulu.', 'warning');
+    return;
+  }
+
+  /* Buat elemen gambar dengan style perataan */
+  let style = 'max-width:100%;border-radius:8px;margin:10px 0;display:block;';
+  if (align === 'center') style += 'margin-left:auto;margin-right:auto;';
+  else if (align === 'left')  style += 'float:left;margin-right:16px;max-width:50%;';
+  else if (align === 'right') style += 'float:right;margin-left:16px;max-width:50%;';
+
+  const imgHTML = `<img src="${url}" alt="${alt || 'Gambar berita'}" style="${style}">`;
+
+  /* Kembalikan fokus + posisi kursor ke editor, lalu sisipkan HTML */
+  const editor = document.getElementById('post-body-editor');
+  editor.focus();
+  restoreEditorSelection();
+
+  /* Sisipkan gambar di posisi kursor */
+  document.execCommand('insertHTML', false, imgHTML + '<br>');
+
+  closeImgInsertModal();
+  showToast('Gambar berhasil disisipkan ke dalam berita.', 'success');
+};
+
+/* ══════════════════════════
+   TOGGLE PREVIEW
+══════════════════════════ */
 window.togglePreview = () => {
   const editorEl  = document.getElementById('post-body-editor');
   const previewEl = document.getElementById('post-body-preview');
@@ -2069,10 +2159,10 @@ window.updateCharCount = (inputId, countId, max) => {
   const len = document.getElementById(inputId).value.length;
   const el  = document.getElementById(countId);
   el.textContent = `${len} / ${max} karakter`;
-  el.className = 'char-count' + (len > max ? ' over' : len > max * .8 ? ' warn' : '');
+  el.className   = 'char-count' + (len > max ? ' over' : len > max * .8 ? ' warn' : '');
 };
 
-/* Image upload */
+/* ── Image upload (foto utama) ── */
 window.handleDrag = (e, over) => {
   e.preventDefault();
   document.getElementById('upload-zone').classList.toggle('drag', over);
@@ -2096,7 +2186,6 @@ function processImageFile(file) {
     document.getElementById('upload-preview-img').src = data;
     document.getElementById('upload-preview').style.display = 'block';
     document.getElementById('upload-zone').style.display    = 'none';
-    // Clear URL input since we have file
     document.getElementById('post-image-url').value = '';
     document.getElementById('img-url-preview').style.display = 'none';
   };
@@ -2106,22 +2195,22 @@ window.removeUpload = () => {
   window._app.uploadedImageData = null;
   document.getElementById('upload-preview').style.display = 'none';
   document.getElementById('upload-zone').style.display    = 'block';
-  document.getElementById('upload-preview-img').src = '';
-  document.getElementById('file-input').value = '';
+  document.getElementById('upload-preview-img').src       = '';
+  document.getElementById('file-input').value             = '';
 };
 window.previewImageUrl = () => {
-  const url = document.getElementById('post-image-url').value.trim();
+  const url  = document.getElementById('post-image-url').value.trim();
   const prev = document.getElementById('img-url-preview');
   const img  = document.getElementById('img-url-preview-img');
   if (url) { img.src = url; prev.style.display = 'block'; }
   else     { prev.style.display = 'none'; }
 };
 
-/* Tags */
+/* ── Tags ── */
 window.handleTagInput = (e) => {
   if (e.key === 'Enter' || e.key === ',') {
     e.preventDefault();
-    const val = document.getElementById('tag-input').value.trim().replace(',','');
+    const val = document.getElementById('tag-input').value.trim().replace(',', '');
     if (val && !window._app.tags.includes(val)) {
       window._app.tags.push(val);
       renderTags();
@@ -2147,36 +2236,38 @@ function renderTags() {
   input.value = '';
 }
 
-/* Progress */
+/* ── Progress bar ── */
 window.setProgress = (val) => {
   document.getElementById('save-progress-bar').style.width = val + '%';
 };
 
-/* Reset form */
+/* ── Reset form ── */
 window.resetForm = () => {
-  window._app.editingId       = null;
-  window._app.tags            = [];
+  window._app.editingId         = null;
+  window._app.tags              = [];
   window._app.uploadedImageData = null;
-  window._app.previewMode     = false;
-  ['post-title','post-excerpt','post-author','post-date','post-image-url'].forEach(id => {
+  window._app.previewMode       = false;
+  window._app.savedEditorRange  = null;
+
+  ['post-title','post-excerpt','post-image-url'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.value = id === 'post-author' ? 'Tim Humas KUA Ambulu' : '';
+    if (el) el.value = '';
   });
-  document.getElementById('post-category').value  = '';
+  document.getElementById('post-author').value   = 'Tim Humas KUA Ambulu';
+  document.getElementById('post-category').value = '';
   document.getElementById('post-body-editor').innerHTML = '';
   document.getElementById('post-body-preview').style.display = 'none';
   document.getElementById('post-body-editor').style.display  = 'block';
-  document.getElementById('editor-toolbar').style.opacity = '1';
-  document.getElementById('editor-toolbar').style.pointerEvents = 'auto';
-  document.getElementById('slug-preview').style.display = 'none';
+  document.getElementById('editor-toolbar').style.opacity        = '1';
+  document.getElementById('editor-toolbar').style.pointerEvents  = 'auto';
+  document.getElementById('slug-preview').style.display   = 'none';
   document.getElementById('upload-preview').style.display = 'none';
-  document.getElementById('upload-zone').style.display = 'block';
+  document.getElementById('upload-zone').style.display    = 'block';
   document.getElementById('img-url-preview').style.display = 'none';
-  document.getElementById('post-form-title').textContent = 'Tulis Berita Baru';
+  document.getElementById('post-form-title').textContent  = 'Tulis Berita Baru';
   renderTags();
-  document.getElementById('title-count').textContent   = '0 / 100 karakter';
-  document.getElementById('excerpt-count').textContent = '0 / 200 karakter';
-  // Set today
+  document.getElementById('title-count').textContent   = '0 / 150 karakter';
+  document.getElementById('excerpt-count').textContent = '0 / 300 karakter';
   document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
 };
 
@@ -2196,16 +2287,13 @@ window.showPanel = (name) => {
   };
   document.getElementById('topbar-title').textContent = labels[name] || '';
 
-  // Highlight nav
   document.querySelectorAll('.nav-item').forEach(btn => {
     if (btn.textContent.trim().replace(/\s+/g,' ').includes(labels[name])) btn.classList.add('active');
   });
 
-  // Refresh lists
   if (name === 'posts') renderPostsList();
   if (name === 'dashboard') { renderDashboardRecent(); renderStats(); }
 
-  // Close sidebar on mobile
   if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
 };
 
@@ -2226,14 +2314,14 @@ function slugify(str) {
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
-  const d  = new Date(dateStr);
+  const d = new Date(dateStr);
   const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
 window.showToast = (msg, type = '') => {
   const container = document.getElementById('toast-container');
-  const icons     = { success: 'fa-check-circle', error: 'fa-times-circle', warning: 'fa-exclamation-triangle' };
+  const icons = { success: 'fa-check-circle', error: 'fa-times-circle', warning: 'fa-exclamation-triangle' };
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i> ${msg}`;
@@ -2241,35 +2329,29 @@ window.showToast = (msg, type = '') => {
   setTimeout(() => toast.remove(), 3200);
 };
 
-window.resetConfig = () => {
-  if (!confirm('Reset konfigurasi Firebase? Anda akan keluar dan perlu mengisi ulang.')) return;
-  localStorage.removeItem('kua_fb_config');
-  window.location.reload();
-};
-
 /* ══════════════════════════
-   BOOT
+   BOOT — langsung init Firebase dari config file
 ══════════════════════════ */
 (function boot() {
-  const cfg = getStoredConfig();
-  if (!cfg) {
-    document.getElementById('setup-screen').style.display = 'flex';
-    document.getElementById('login-screen').style.display = 'none';
-  } else {
-    document.getElementById('setup-screen').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    initFirebase(cfg);
-  }
+  initFirebase();
 
-  // Set default date
+  /* Set tanggal default */
   const dateInput = document.getElementById('post-date');
   if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
 
-  // Enter key triggers login from both fields
+  /* Enter key untuk login */
   ['login-email','login-pass'].forEach(id => {
     document.getElementById(id)?.addEventListener('keydown', e => {
       if (e.key === 'Enter') doLogin();
     });
+  });
+
+  /* Tutup modal gambar jika klik di luar */
+  document.getElementById('img-insert-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeImgInsertModal();
+  });
+  document.getElementById('delete-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
   });
 })();
 </script>
