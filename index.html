@@ -245,7 +245,7 @@
                         <div class="service-icon">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <h3>Layanan Informasi & Konsultasi</h3>
+                        <h3>Layanan Informasi &amp; Konsultasi</h3>
                         <p>Hubungi kami untuk informasi dan konsultasi langsung terkait layanan KUA Ambulu.</p>
                         <div class="button-group">
                             <a href="https://wa.me/6282146035081" target="_blank" class="btn">Chat WhatsApp</a>
@@ -391,21 +391,35 @@
 
     <script src="js/script.js"></script>
 
-    <!-- Firebase: muat teaser berita dari Firestore -->
+    <!-- =====================================================================
+         PERBAIKAN BUG:
+         1. Import firebaseConfig dipindah ke top-level module (bukan di dalam
+            fungsi async) — ini adalah requirement ES module.
+         2. Variabel `cfg` diganti langsung dengan `firebaseConfig`.
+         3. Tidak ada lagi ketergantungan pada localStorage.
+    ====================================================================== -->
     <script type="module">
     import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, query,
-             where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+             where, orderBy, limit, getDocs }
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    /* Import config dari file terpusat — HARUS di top-level module */
+    import { firebaseConfig } from "./js/firebase-config.js";
 
     const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
     function fmtDate(s) {
         if (!s) return '';
         const d = new Date(s);
         return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
     }
+
     function teaserHTML(post) {
         const thumb = post.imageUrl
-            ? `<img src="${post.imageUrl.substring(0,300)}" alt="${post.title}" onerror="this.style.display='none'">`
+            ? `<img src="${post.imageUrl.substring(0, 300)}" alt="${post.title}"
+                   loading="lazy"
+                   onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`
             : `<i class="fas fa-mosque" style="color:#4CAF50;font-size:2.2em;"></i>`;
         return `
         <a class="news-teaser-card" href="post/?id=${post.id}">
@@ -422,32 +436,64 @@
     }
 
     (async function loadTeaser() {
-        import { firebaseConfig } from "./js/firebase-config.js";
-        if (!cfg) {
-            document.getElementById('teaser-list').innerHTML = '';
-            document.getElementById('teaser-empty').style.display = 'block';
-            return;
-        }
+        const list  = document.getElementById('teaser-list');
+        const empty = document.getElementById('teaser-empty');
         try {
-            const app  = initializeApp(cfg, 'public-teaser');
-            const db   = getFirestore(app);
-            const q    = query(
-                collection(db, 'posts'),
-                where('status', '==', 'published'),
-                orderBy('createdAt', 'desc'),
-                limit(4)
-            );
-            const snap = await getDocs(q);
-            const list = document.getElementById('teaser-list');
-            const empty = document.getElementById('teaser-empty');
+            const app = initializeApp(firebaseConfig, 'public-teaser');
+            const db  = getFirestore(app);
+
+            /* Composite index diperlukan untuk where + orderBy berbeda field.
+               Jika index belum dibuat di Firestore Console, gunakan fallback
+               hanya where() lalu urutkan di sisi klien. */
+            let snap;
+            try {
+                const q = query(
+                    collection(db, 'posts'),
+                    where('status', '==', 'published'),
+                    orderBy('createdAt', 'desc'),
+                    limit(4)
+                );
+                snap = await getDocs(q);
+            } catch (_indexErr) {
+                /* Fallback: tanpa orderBy (tidak butuh composite index) */
+                const q2 = query(
+                    collection(db, 'posts'),
+                    where('status', '==', 'published')
+                );
+                const raw = await getDocs(q2);
+                /* Urutkan lokal & ambil 4 terbaru */
+                const sorted = raw.docs
+                    .map(d => ({ id: d.id, ...d.data() }))
+                    .sort((a, b) => {
+                        const da  = a.date ? new Date(a.date) : (a.createdAt?.toDate?.() || new Date(0));
+                        const db_ = b.date ? new Date(b.date) : (b.createdAt?.toDate?.() || new Date(0));
+                        return db_ - da;
+                    })
+                    .slice(0, 4);
+
+                if (!sorted.length) {
+                    list.innerHTML = '';
+                    empty.style.display = 'block';
+                    return;
+                }
+                list.innerHTML = sorted.map(p => teaserHTML(p)).join('');
+                return;
+            }
+
             if (snap.empty) {
                 list.innerHTML = '';
                 empty.style.display = 'block';
                 return;
             }
-            list.innerHTML = snap.docs.map(d => teaserHTML({ id: d.id, ...d.data() })).join('');
-        } catch(e) {
-            document.getElementById('teaser-list').innerHTML = '';
+            list.innerHTML = snap.docs
+                .map(d => teaserHTML({ id: d.id, ...d.data() }))
+                .join('');
+
+        } catch (e) {
+            /* Gagal total — sembunyikan skeleton, jangan tampilkan error mentah */
+            list.innerHTML = '';
+            empty.style.display = 'block';
+            console.error('loadTeaser error:', e);
         }
     })();
     </script>
