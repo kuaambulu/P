@@ -178,7 +178,7 @@ let _st;document.getElementById('search-input').addEventListener('input',e=>{cle
     try{
         const app=initializeApp(cfg,'berita-page');
         const db=getFirestore(app);
-        const q=query(collection(db,'posts'),where('status','==','published'),orderBy('createdAt','desc'));
+        const q=query(collection(db,'posts'),where('status','==','published'));
         const snap=await getDocs(q);
         if(snap.empty){grid.innerHTML=`<div class="state-box" style="grid-column:1/-1"><i class="fas fa-newspaper"></i><p>Belum ada berita yang dipublikasikan.</p></div>`;return;}
         _all=snap.docs.map(d=>({id:d.id,...d.data()}));
