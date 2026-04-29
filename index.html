@@ -63,6 +63,7 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
+            margin-bottom: 18px;
         }
         .news-teaser-card:hover {
             transform: translateY(-5px);
@@ -141,6 +142,46 @@
             .news-teaser-thumb { width: 100%; height: 160px; min-height: unset; }
             .news-teaser-header h2 { font-size: 1.4em; }
         }
+
+        /* ── Skeleton loader ── */
+        @keyframes shimmer {
+            0%   { background-position: -600px 0; }
+            100% { background-position:  600px 0; }
+        }
+        .teaser-skeleton {
+            display: flex;
+            background: rgba(255,255,255,.15);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            min-height: 120px;
+        }
+        .sk-thumb {
+            width: 160px;
+            flex-shrink: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,.1) 25%, rgba(255,255,255,.25) 50%, rgba(255,255,255,.1) 75%);
+            background-size: 600px 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+        .sk-body {
+            flex: 1;
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+        }
+        .sk-line {
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, rgba(255,255,255,.1) 25%, rgba(255,255,255,.25) 50%, rgba(255,255,255,.1) 75%);
+            background-size: 600px 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+        @media (max-width: 600px) {
+            .sk-thumb { width: 100%; height: 100px; }
+            .teaser-skeleton { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -159,8 +200,8 @@
                 <nav id="nav-menu">
                     <a href="#beranda">Beranda</a>
                     <a href="#layanan">Layanan</a>
+                    <a href="#berita">Berita</a>
                     <a href="#informasi">Informasi</a>
-                    <a href="berita.html">Berita</a>
                     <a href="#kontak">Kontak</a>
                 </nav>
                 <button class="menu-toggle" id="menu-toggle">
@@ -242,7 +283,7 @@
             </div>
         </section>
 
-        <!-- ===== BERITA TERBARU TEASER ===== -->
+        <!-- ===== BERITA TERBARU (Firebase — otomatis) ===== -->
         <section id="berita" class="news-teaser">
             <div class="container">
                 <div class="news-teaser-header">
@@ -251,36 +292,31 @@
                         Lihat Semua Berita <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-                <!-- Teaser Card: Berita 1 -->
-                <div class="news-teaser-card" onclick="window.open('https://jember.kemenag.go.id/post/wujudkan-layanan-nikah-tanpa-pungli-kemenag-jember-mantapkan-inovasi-sgra-nikah-melalui-monev-triwulan-i-tahun-2025', '_blank')" role="button" tabindex="0">
-                    <div class="news-teaser-thumb">
-                        <img 
-                            src="https://jember.kemenag.go.id/media/photos/1. Panji AF/69f02c00be70c.png" 
-                            alt="S'GRA NIKAH Kemenag Jember"
-                            onerror="this.parentElement.innerHTML='<i class=\'fas fa-newspaper\'></i>'"
-                        >
+                <div id="teaser-list">
+                    <!-- Skeleton loading -->
+                    <div class="teaser-skeleton">
+                        <div class="sk-thumb"></div>
+                        <div class="sk-body">
+                            <div class="sk-line" style="width:40%"></div>
+                            <div class="sk-line" style="width:85%"></div>
+                            <div class="sk-line" style="width:65%"></div>
+                        </div>
                     </div>
-                    <div class="news-teaser-body">
-                        <span class="news-teaser-badge">Layanan Nikah</span>
-                        <p class="news-teaser-title">Wujudkan Layanan Nikah Tanpa Pungli, Kemenag Jember Mantapkan Inovasi S'GRA NIKAH Melalui Monev Triwulan I Tahun 2025</p>
-                        <p class="news-teaser-excerpt">Seluruh ASN KUA se-Kabupaten Jember berikrar menolak gratifikasi dan menegaskan layanan nikah gratis di jam kerja melalui inovasi S'GRA NIKAH.</p>
-                        <a 
-                            href="https://jember.kemenag.go.id/post/wujudkan-layanan-nikah-tanpa-pungli-kemenag-jember-mantapkan-inovasi-sgra-nikah-melalui-monev-triwulan-i-tahun-2025" 
-                            target="_blank" rel="noopener noreferrer"
-                            class="news-teaser-link"
-                            onclick="event.stopPropagation()"
-                        >
-                            Baca Selengkapnya <i class="fas fa-external-link-alt"></i>
-                        </a>
+                    <div class="teaser-skeleton">
+                        <div class="sk-thumb"></div>
+                        <div class="sk-body">
+                            <div class="sk-line" style="width:35%"></div>
+                            <div class="sk-line" style="width:90%"></div>
+                            <div class="sk-line" style="width:70%"></div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Tambah teaser berita lain di bawah ini jika ada -->
-
+                <p id="teaser-empty" style="display:none;text-align:center;color:rgba(255,255,255,.75);padding:24px 0;font-size:.95em;">
+                    <i class="fas fa-newspaper" style="margin-right:8px;"></i>Belum ada berita yang dipublikasikan.
+                </p>
             </div>
         </section>
-        <!-- ===== / BERITA TERBARU TEASER ===== -->
+        <!-- ===== / BERITA TERBARU ===== -->
 
         <section id="informasi" class="services-hub">
             <div class="container">
@@ -354,16 +390,67 @@
     </footer>
 
     <script src="js/script.js"></script>
-    <script>
-        // Keyboard accessibility for news teaser cards
-        document.querySelectorAll('.news-teaser-card[role="button"]').forEach(card => {
-            card.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
-        });
+
+    <!-- Firebase: muat teaser berita dari Firestore -->
+    <script type="module">
+    import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, query,
+             where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    function fmtDate(s) {
+        if (!s) return '';
+        const d = new Date(s);
+        return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    }
+    function teaserHTML(post) {
+        const thumb = post.imageUrl
+            ? `<img src="${post.imageUrl.substring(0,300)}" alt="${post.title}" onerror="this.style.display='none'">`
+            : `<i class="fas fa-mosque" style="color:#4CAF50;font-size:2.2em;"></i>`;
+        return `
+        <a class="news-teaser-card" href="post/?id=${post.id}">
+            <div class="news-teaser-thumb">${thumb}</div>
+            <div class="news-teaser-body">
+                <span class="news-teaser-badge">${post.category || 'Berita'}</span>
+                <p class="news-teaser-title">${post.title}</p>
+                <p class="news-teaser-excerpt">${post.excerpt || ''}</p>
+                <span class="news-teaser-link">
+                    Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                </span>
+            </div>
+        </a>`;
+    }
+
+    (async function loadTeaser() {
+        const cfg = JSON.parse(localStorage.getItem('kua_fb_config') || 'null');
+        if (!cfg) {
+            document.getElementById('teaser-list').innerHTML = '';
+            document.getElementById('teaser-empty').style.display = 'block';
+            return;
+        }
+        try {
+            const app  = initializeApp(cfg, 'public-teaser');
+            const db   = getFirestore(app);
+            const q    = query(
+                collection(db, 'posts'),
+                where('status', '==', 'published'),
+                orderBy('createdAt', 'desc'),
+                limit(4)
+            );
+            const snap = await getDocs(q);
+            const list = document.getElementById('teaser-list');
+            const empty = document.getElementById('teaser-empty');
+            if (snap.empty) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            list.innerHTML = snap.docs.map(d => teaserHTML({ id: d.id, ...d.data() })).join('');
+        } catch(e) {
+            document.getElementById('teaser-list').innerHTML = '';
+        }
+    })();
     </script>
+
 </body>
 </html>
