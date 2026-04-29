@@ -131,84 +131,128 @@
 document.getElementById('menu-toggle').addEventListener('click',function(){document.getElementById('nav-menu').classList.toggle('active');});
 </script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, query,
+         where, getDocs }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ─── Ambil config dari file terpusat (tidak bergantung localStorage) ───
+import { firebaseConfig } from "./js/firebase-config.js";
+
 const MONTHS=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-const PER_PAGE=9;
-let _all=[],_filtered=[],_activeCat='',_searchTerm='',_page=1;
-function fmtDate(s){if(!s)return'';const d=new Date(s);return`${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
+const PER_PAGE = 9;
+let _all=[], _filtered=[], _activeCat='', _searchTerm='', _page=1;
+
+function fmtDate(s){
+    if(!s) return '';
+    const d = new Date(s);
+    return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
 function cardHTML(p){
-    const thumb=p.imageUrl?`<img src="${p.imageUrl.substring(0,300)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`:`<i class="fas fa-mosque"></i>`;
-    return`<a class="news-card" href="post/?id=${p.id}"><div class="nc-thumb">${thumb}</div><div class="nc-body"><div class="nc-meta"><span class="nc-badge">${p.category||'Berita'}</span><span class="nc-date"><i class="fas fa-calendar-alt"></i>${fmtDate(p.date)}</span></div><h2 class="nc-title">${p.title}</h2><p class="nc-excerpt">${p.excerpt||''}</p><div class="nc-footer"><span class="nc-author"><i class="fas fa-user-circle"></i>${p.author||'KUA Ambulu'}</span><span class="nc-read">Baca <i class="fas fa-arrow-right"></i></span></div></div></a>`;
+    const thumb = p.imageUrl
+        ? `<img src="${p.imageUrl.substring(0,300)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`
+        : `<i class="fas fa-mosque"></i>`;
+    return `<a class="news-card" href="post/?id=${p.id}">
+        <div class="nc-thumb">${thumb}</div>
+        <div class="nc-body">
+            <div class="nc-meta">
+                <span class="nc-badge">${p.category||'Berita'}</span>
+                <span class="nc-date"><i class="fas fa-calendar-alt"></i>${fmtDate(p.date)}</span>
+            </div>
+            <h2 class="nc-title">${p.title}</h2>
+            <p class="nc-excerpt">${p.excerpt||''}</p>
+            <div class="nc-footer">
+                <span class="nc-author"><i class="fas fa-user-circle"></i>${p.author||'KUA Ambulu'}</span>
+                <span class="nc-read">Baca <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+    </a>`;
 }
+
 function applyFilters(){
-    _filtered=_all.filter(p=>{
-        const mc=!_activeCat||p.category===_activeCat;
-        const ms=!_searchTerm||p.title.toLowerCase().includes(_searchTerm)||(p.excerpt||'').toLowerCase().includes(_searchTerm);
-        return mc&&ms;
+    _filtered = _all.filter(p => {
+        const mc = !_activeCat  || p.category === _activeCat;
+        const ms = !_searchTerm || p.title.toLowerCase().includes(_searchTerm)
+                                || (p.excerpt||'').toLowerCase().includes(_searchTerm);
+        return mc && ms;
     });
-    _page=1; render();
+    _page = 1;
+    render();
 }
+
 function render(){
-    const grid=document.getElementById('news-grid');
-    const pgDiv=document.getElementById('pagination');
-    const start=(_page-1)*PER_PAGE;
-    const slice=_filtered.slice(start,start+PER_PAGE);
-    const total=Math.ceil(_filtered.length/PER_PAGE);
-    if(!_filtered.length){grid.innerHTML=`<div class="state-box" style="grid-column:1/-1"><i class="fas fa-search"></i><p>Tidak ada berita yang sesuai.</p></div>`;pgDiv.innerHTML='';return;}
-    grid.innerHTML=slice.map(cardHTML).join('');
-    if(total<=1){pgDiv.innerHTML='';return;}
-    let btns=`<button class="page-btn" ${_page===1?'disabled':''} onclick="_goPage(${_page-1})"><i class="fas fa-chevron-left"></i></button>`;
-    for(let i=1;i<=total;i++)btns+=`<button class="page-btn ${i===_page?'active':''}" onclick="_goPage(${i})">${i}</button>`;
-    btns+=`<button class="page-btn" ${_page===total?'disabled':''} onclick="_goPage(${_page+1})"><i class="fas fa-chevron-right"></i></button>`;
-    pgDiv.innerHTML=btns;
+    const grid  = document.getElementById('news-grid');
+    const pgDiv = document.getElementById('pagination');
+    const start = (_page - 1) * PER_PAGE;
+    const slice = _filtered.slice(start, start + PER_PAGE);
+    const total = Math.ceil(_filtered.length / PER_PAGE);
+
+    if(!_filtered.length){
+        grid.innerHTML  = `<div class="state-box" style="grid-column:1/-1"><i class="fas fa-search"></i><p>Tidak ada berita yang sesuai.</p></div>`;
+        pgDiv.innerHTML = '';
+        return;
+    }
+    grid.innerHTML = slice.map(cardHTML).join('');
+
+    if(total <= 1){ pgDiv.innerHTML = ''; return; }
+    let btns = `<button class="page-btn" ${_page===1?'disabled':''} onclick="_goPage(${_page-1})"><i class="fas fa-chevron-left"></i></button>`;
+    for(let i=1;i<=total;i++) btns += `<button class="page-btn ${i===_page?'active':''}" onclick="_goPage(${i})">${i}</button>`;
+    btns += `<button class="page-btn" ${_page===total?'disabled':''} onclick="_goPage(${_page+1})"><i class="fas fa-chevron-right"></i></button>`;
+    pgDiv.innerHTML = btns;
 }
-window._goPage=(n)=>{_page=n;render();window.scrollTo({top:0,behavior:'smooth'});};
-document.querySelectorAll('.filter-chip').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-        document.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');_activeCat=btn.dataset.cat;applyFilters();
+
+window._goPage = n => { _page = n; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+
+// Filter chip & search listeners
+document.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        _activeCat = btn.dataset.cat;
+        applyFilters();
     });
 });
-let _st;document.getElementById('search-input').addEventListener('input',e=>{clearTimeout(_st);_st=setTimeout(()=>{_searchTerm=e.target.value.trim().toLowerCase();applyFilters();},300);});
-(async function load() {
-    // GANTI baris localStorage dengan konfigurasi langsung
-    const cfg = {
-        apiKey: "AIzaSyAef2BIk7gGpifJt3bJig1U9JqPjfoNRUA",
-        authDomain: "web-kua-ambulu.firebaseapp.com",
-        projectId: "web-kua-ambulu",
-        storageBucket: "web-kua-ambulu.firebasestorage.app",
-        messagingSenderId: "903594923486",
-        appId: "1:903594923486:web:4be9a4d3de54e13cb4394f"
-    };
+let _st;
+document.getElementById('search-input').addEventListener('input', e => {
+    clearTimeout(_st);
+    _st = setTimeout(() => { _searchTerm = e.target.value.trim().toLowerCase(); applyFilters(); }, 300);
+});
 
-    const grid = document.getElementById('news-grid'); // atau container detail berita
-    
+// ─── Load data dari Firestore ───────────────────────────────────────────
+// CATATAN: query hanya pakai where('status') tanpa orderBy untuk menghindari
+// kebutuhan composite index di Firestore. Pengurutan dilakukan di sisi klien.
+(async function load(){
+    const grid = document.getElementById('news-grid');
     try {
-        const app = initializeApp(cfg, 'detail-page');
-        const db = getFirestore(app);
-        
-        // Ambil ID dari URL
-        const params = new URLSearchParams(window.location.search);
-        const postId = params.get('id');
+        const app  = initializeApp(firebaseConfig, 'berita-page');
+        const db   = getFirestore(app);
 
-        // Kode untuk mengambil dokumen berdasarkan ID...
-        // const docRef = doc(db, "posts", postId);
-        // ...
-    } catch(e) {
-        console.error(e);
-        // Tampilkan pesan error ke user
-    }
-})();
-    try{
-        const app=initializeApp(cfg,'berita-page');
-        const db=getFirestore(app);
-        const q=query(collection(db,'posts'),where('status','==','published'));
-        const snap=await getDocs(q);
-        if(snap.empty){grid.innerHTML=`<div class="state-box" style="grid-column:1/-1"><i class="fas fa-newspaper"></i><p>Belum ada berita yang dipublikasikan.</p></div>`;return;}
-        _all=snap.docs.map(d=>({id:d.id,...d.data()}));
+        // Tidak pakai orderBy agar tidak butuh composite index Firestore.
+        // Pengurutan dilakukan secara lokal di bawah.
+        const q    = query(
+            collection(db, 'posts'),
+            where('status', '==', 'published')
+        );
+        const snap = await getDocs(q);
+
+        if(snap.empty){
+            grid.innerHTML = `<div class="state-box" style="grid-column:1/-1"><i class="fas fa-newspaper"></i><p>Belum ada berita yang dipublikasikan.</p></div>`;
+            return;
+        }
+
+        // Urutkan secara lokal: prioritas field 'date', fallback ke 'createdAt'
+        _all = snap.docs
+            .map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => {
+                const da = a.date ? new Date(a.date) : (a.createdAt?.toDate?.() || new Date(0));
+                const db_ = b.date ? new Date(b.date) : (b.createdAt?.toDate?.() || new Date(0));
+                return db_ - da; // desc
+            });
+
         applyFilters();
-    }catch(e){grid.innerHTML=`<div class="state-box" style="grid-column:1/-1"><i class="fas fa-exclamation-triangle" style="color:#FCA5A5"></i><p>Gagal memuat berita. Periksa konfigurasi Firebase.</p></div>`;}
+    } catch(e) {
+        grid.innerHTML = `<div class="state-box" style="grid-column:1/-1"><i class="fas fa-exclamation-triangle" style="color:#FCA5A5"></i><p>Gagal memuat berita.<br><small style="color:#aaa">${e.message}</small></p></div>`;
+    }
 })();
 </script>
 </body>
