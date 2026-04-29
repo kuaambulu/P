@@ -188,32 +188,32 @@ function copyLink(){
 </script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc,
-         collection, query, where, orderBy, limit, getDocs }
+         collection, query, where, getDocs }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ─── Ambil config dari file terpusat (tidak bergantung localStorage) ───
+import { firebaseConfig } from "../js/firebase-config.js";
+
 const MONTHS=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-function fmtDate(s){if(!s)return'';const d=new Date(s);return`${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
+function fmtDate(s){ if(!s) return ''; const d=new Date(s); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; }
 
 function renderPost(p) {
-    // Update meta
-    document.title=`${p.title} | KUA Ambulu`;
-    document.querySelector('meta[name="description"]')?.setAttribute('content',p.excerpt||p.title);
+    document.title = `${p.title} | KUA Ambulu`;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', p.excerpt||p.title);
     document.getElementById('bc-title').textContent = p.title.length>40 ? p.title.substring(0,40)+'…' : p.title;
 
-    // Hero image or placeholder
     const heroHTML = p.imageUrl
         ? `<img class="post-hero" src="${p.imageUrl}" alt="${p.title}" onerror="this.outerHTML='<div class=\\'post-hero-placeholder\\'><i class=\\'fas fa-mosque\\'></i></div>'">`
         : `<div class="post-hero-placeholder"><i class="fas fa-mosque"></i></div>`;
 
-    // Share URLs
-    const url  = encodeURIComponent(window.location.href);
-    const ttl  = encodeURIComponent(p.title);
+    const url   = encodeURIComponent(window.location.href);
+    const ttl   = encodeURIComponent(p.title);
     const waUrl = `https://wa.me/?text=${ttl}%0A${url}`;
     const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 
-    const html=`
+    document.getElementById('post-container').innerHTML = `
     <article class="post-card">
         ${heroHTML}
         <div class="post-header">
@@ -244,24 +244,27 @@ function renderPost(p) {
             </div>
         </div>
     </article>`;
-    document.getElementById('post-container').innerHTML=html;
 }
 
 function renderRelated(posts) {
     if(!posts.length) return;
-    const section=document.getElementById('related-section');
-    const grid=document.getElementById('related-grid');
-    section.style.display='block';
-    grid.innerHTML=posts.map(p=>{
-        const thumb=p.imageUrl
-            ?`<img src="${p.imageUrl.substring(0,300)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`
-            :`<i class="fas fa-mosque"></i>`;
-        return`<a class="rel-card" href="?id=${p.id}"><div class="rel-thumb">${thumb}</div><div class="rel-body"><div class="rel-badge">${p.category||'Berita'}</div><div class="rel-title">${p.title}</div></div></a>`;
+    document.getElementById('related-section').style.display = 'block';
+    document.getElementById('related-grid').innerHTML = posts.map(p => {
+        const thumb = p.imageUrl
+            ? `<img src="${p.imageUrl.substring(0,300)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`
+            : `<i class="fas fa-mosque"></i>`;
+        return `<a class="rel-card" href="?id=${p.id}">
+            <div class="rel-thumb">${thumb}</div>
+            <div class="rel-body">
+                <div class="rel-badge">${p.category||'Berita'}</div>
+                <div class="rel-title">${p.title}</div>
+            </div>
+        </a>`;
     }).join('');
 }
 
 function showError(msg) {
-    document.getElementById('post-container').innerHTML=
+    document.getElementById('post-container').innerHTML =
         `<div class="state-box"><i class="fas fa-exclamation-circle" style="color:#FCA5A5"></i><p>${msg}</p><a href="../berita.html" style="color:#4CAF50;font-weight:700;margin-top:14px;display:inline-block;">← Kembali ke Berita</a></div>`;
 }
 
@@ -270,15 +273,12 @@ function showError(msg) {
     const id     = params.get('id');
     if(!id){ showError('ID berita tidak ditemukan.'); return; }
 
-    const cfg=JSON.parse(localStorage.getItem('kua_fb_config')||'null');
-    if(!cfg){ showError('Konfigurasi Firebase belum tersedia. Hubungkan melalui <a href="../admin/" style="color:#4CAF50">halaman Admin</a>.'); return; }
-
-    try{
-        const app = initializeApp(cfg,'post-page');
+    try {
+        const app = initializeApp(firebaseConfig, 'post-page');
         const db  = getFirestore(app);
 
-        // Fetch main post
-        const snap = await getDoc(doc(db,'posts',id));
+        // Ambil berita utama berdasarkan ID
+        const snap = await getDoc(doc(db, 'posts', id));
         if(!snap.exists() || snap.data().status !== 'published'){
             showError('Berita tidak ditemukan atau belum dipublikasikan.');
             return;
@@ -286,23 +286,28 @@ function showError(msg) {
         const post = { id: snap.id, ...snap.data() };
         renderPost(post);
 
-        // Fetch related (same category, exclude current, limit 3)
+        // ─── Berita terkait ─────────────────────────────────────────────
+        // Tidak pakai orderBy untuk menghindari kebutuhan composite index.
+        // Pengurutan dilakukan secara lokal.
         const rq = query(
-            collection(db,'posts'),
-            where('status','==','published'),
-            where('category','==', post.category||''),
-            orderBy('createdAt','desc'),
-            limit(4)
+            collection(db, 'posts'),
+            where('status',   '==', 'published'),
+            where('category', '==', post.category || '')
         );
         const rSnap = await getDocs(rq);
         const related = rSnap.docs
-            .map(d=>({id:d.id,...d.data()}))
-            .filter(p=>p.id!==id)
-            .slice(0,3);
+            .map(d => ({ id: d.id, ...d.data() }))
+            .filter(p => p.id !== id)
+            .sort((a, b) => {
+                const da  = a.date ? new Date(a.date) : (a.createdAt?.toDate?.() || new Date(0));
+                const db_ = b.date ? new Date(b.date) : (b.createdAt?.toDate?.() || new Date(0));
+                return db_ - da;
+            })
+            .slice(0, 3);
         renderRelated(related);
 
-    }catch(e){
-        showError('Gagal memuat berita. Periksa koneksi dan konfigurasi Firebase.<br><small style="color:#aaa">'+e.message+'</small>');
+    } catch(e) {
+        showError(`Gagal memuat berita. Periksa koneksi Anda.<br><small style="color:#aaa">${e.message}</small>`);
     }
 })();
 </script>
