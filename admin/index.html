@@ -1098,6 +1098,114 @@ select.form-control { cursor: pointer; }
 }
 
 /* ══════════════════════════════════════════════
+   TABLE BUILDER MODAL (fitur baru)
+══════════════════════════════════════════════ */
+#table-insert-modal .modal { max-width: 560px; }
+
+/* Grid pemilih ukuran tabel */
+.table-size-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  user-select: none;
+}
+.table-size-row { display: flex; gap: 4px; }
+.table-size-cell {
+  width: 28px; height: 28px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+  background: var(--surface);
+}
+.table-size-cell.hovered {
+  background: var(--green-100);
+  border-color: var(--green-500);
+}
+.table-size-label {
+  font-size: .82em;
+  color: var(--ink-3);
+  margin-top: 6px;
+  font-weight: 600;
+  font-family: var(--mono);
+  min-height: 20px;
+}
+
+/* Preview tabel di editor */
+.editor-area table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: .9em;
+}
+.editor-area table td,
+.editor-area table th {
+  border: 1.5px solid #c8e6c9;
+  padding: 8px 12px;
+  min-width: 60px;
+  min-height: 28px;
+  vertical-align: top;
+}
+.editor-area table th {
+  background: var(--green-100);
+  color: var(--green-700);
+  font-weight: 700;
+  text-align: left;
+}
+.editor-area table tr:nth-child(even) td {
+  background: #f9fffe;
+}
+
+/* Style tabel di post-body (preview & halaman publik) */
+.preview-pane table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: .9em;
+}
+.preview-pane table td,
+.preview-pane table th {
+  border: 1.5px solid #c8e6c9;
+  padding: 8px 12px;
+  vertical-align: top;
+}
+.preview-pane table th {
+  background: var(--green-100);
+  color: var(--green-700);
+  font-weight: 700;
+}
+.preview-pane table tr:nth-child(even) td { background: #f9fffe; }
+
+/* Opsi style tabel */
+.table-style-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.table-style-opt {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: .75em;
+  font-weight: 600;
+  color: var(--ink-3);
+  transition: all var(--transition);
+  background: var(--surface);
+  font-family: var(--font);
+}
+.table-style-opt:hover,
+.table-style-opt.selected {
+  border-color: var(--green-500);
+  background: var(--green-50);
+  color: var(--green-700);
+}
+.table-style-opt i { display: block; font-size: 1.3em; margin-bottom: 5px; }
+
+/* ══════════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════════ */
 @media (max-width: 900px) {
@@ -1377,6 +1485,10 @@ select.form-control { cursor: pointer; }
                   <!-- ★ TOMBOL BARU: Sisipkan gambar via URL eksternal -->
                   <button class="tb-btn" onclick="openImgInsertModal()" title="Sisipkan Gambar dari URL">
                     <i class="fas fa-image"></i>
+                  </button>
+                  <!-- ★ TOMBOL BARU: Buat Tabel -->
+                  <button class="tb-btn" onclick="openTableInsertModal()" title="Buat Tabel">
+                    <i class="fas fa-table"></i>
                   </button>
                   <div class="toolbar-sep"></div>
                   <button class="tb-btn" onclick="execCmd('justifyLeft')" title="Kiri"><i class="fas fa-align-left"></i></button>
@@ -1658,6 +1770,109 @@ select.form-control { cursor: pointer; }
       <button class="btn btn-secondary" onclick="closeImgInsertModal()">Batal</button>
       <button class="btn btn-primary" onclick="doInsertImage()">
         <i class="fas fa-image"></i> Sisipkan Gambar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: BUAT TABEL (fitur baru)
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="table-insert-modal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-table" style="margin-right:8px;color:var(--green-500);"></i>Buat Tabel</h3>
+      <button class="modal-close" onclick="closeTableInsertModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Ukuran tabel: visual picker + manual -->
+      <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;">
+
+        <!-- Grid picker -->
+        <div>
+          <label style="margin-bottom:6px;">Pilih Ukuran (klik untuk memilih)</label>
+          <div class="table-size-picker" id="table-size-picker">
+            <!-- diisi oleh JS: 8×8 grid -->
+          </div>
+          <div class="table-size-label" id="table-size-label">—</div>
+        </div>
+
+        <!-- Input manual -->
+        <div style="flex:1;min-width:160px;">
+          <label style="margin-bottom:6px;">atau Masukkan Manual</label>
+          <div class="form-row" style="margin-bottom:12px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Baris <span class="req">*</span></label>
+              <input id="tbl-rows" class="form-control" type="number" min="1" max="30" value="3"
+                     oninput="syncPickerFromInput()">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Kolom <span class="req">*</span></label>
+              <input id="tbl-cols" class="form-control" type="number" min="1" max="15" value="3"
+                     oninput="syncPickerFromInput()">
+            </div>
+          </div>
+
+          <!-- Opsi baris header -->
+          <div class="form-group" style="margin-bottom:12px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:500;">
+              <input type="checkbox" id="tbl-has-header" checked
+                     style="width:15px;height:15px;accent-color:var(--green-500);">
+              Baris pertama sebagai <strong>Header</strong>
+            </label>
+          </div>
+
+          <!-- Opsi baris footer -->
+          <div class="form-group" style="margin-bottom:0;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:500;">
+              <input type="checkbox" id="tbl-has-footer"
+                     style="width:15px;height:15px;accent-color:var(--green-500);">
+              Baris terakhir sebagai <strong>Footer</strong>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gaya tabel -->
+      <div style="margin-top:18px;">
+        <label style="margin-bottom:6px;">Gaya Tabel</label>
+        <div class="table-style-grid">
+          <button class="table-style-opt selected" data-style="default" onclick="selectTableStyle(this,'default')">
+            <i class="fas fa-table"></i>Default
+          </button>
+          <button class="table-style-opt" data-style="striped" onclick="selectTableStyle(this,'striped')">
+            <i class="fas fa-bars"></i>Stripe
+          </button>
+          <button class="table-style-opt" data-style="bordered" onclick="selectTableStyle(this,'bordered')">
+            <i class="fas fa-border-all"></i>Bordered
+          </button>
+          <button class="table-style-opt" data-style="minimal" onclick="selectTableStyle(this,'minimal')">
+            <i class="fas fa-minus"></i>Minimal
+          </button>
+          <button class="table-style-opt" data-style="dark-header" onclick="selectTableStyle(this,'dark-header')">
+            <i class="fas fa-heading"></i>Dark Header
+          </button>
+          <button class="table-style-opt" data-style="compact" onclick="selectTableStyle(this,'compact')">
+            <i class="fas fa-compress-alt"></i>Compact
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div style="margin-top:18px;">
+        <label style="margin-bottom:6px;">Preview Tabel</label>
+        <div id="table-preview-wrap"
+             style="overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--surface-2);">
+          <div id="table-preview" style="font-size:.82em;"></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeTableInsertModal()">Batal</button>
+      <button class="btn btn-primary" onclick="doInsertTable()">
+        <i class="fas fa-table"></i> Sisipkan Tabel
       </button>
     </div>
   </div>
@@ -2329,9 +2544,251 @@ window.showToast = (msg, type = '') => {
   setTimeout(() => toast.remove(), 3200);
 };
 
-/* ══════════════════════════
-   BOOT — langsung init Firebase dari config file
-══════════════════════════ */
+/* ══════════════════════════════════════════════
+   FITUR BARU: BUAT & SISIPKAN TABEL
+══════════════════════════════════════════════ */
+
+/* State tabel */
+const _tbl = {
+  rows:      3,
+  cols:      3,
+  style:     'default',
+  hovRows:   0,
+  hovCols:   0,
+};
+const GRID_MAX = 8; /* ukuran grid picker: 8×8 */
+
+/* Definisi gaya tabel → inline CSS agar tersimpan di Firestore */
+const TABLE_STYLES = {
+  default: {
+    table:    'border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em;',
+    th:       'border:1.5px solid #a5d6a7;padding:8px 12px;background:#e8f5e9;color:#2E7D32;font-weight:700;text-align:left;',
+    td:       'border:1.5px solid #c8e6c9;padding:8px 12px;vertical-align:top;',
+    tfoot_td: 'border:1.5px solid #a5d6a7;padding:8px 12px;background:#f1f8e9;font-weight:600;vertical-align:top;',
+    even_td:  'background:#f9fffe;',
+  },
+  striped: {
+    table:    'border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em;',
+    th:       'border:none;padding:9px 14px;background:#2E7D32;color:white;font-weight:700;text-align:left;',
+    td:       'border:none;border-bottom:1px solid #e0e0e0;padding:9px 14px;vertical-align:top;',
+    tfoot_td: 'border:none;border-top:2px solid #2E7D32;padding:9px 14px;font-weight:600;background:#e8f5e9;vertical-align:top;',
+    even_td:  'background:#f5f5f5;',
+  },
+  bordered: {
+    table:    'border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em;border:2px solid #388e3c;',
+    th:       'border:2px solid #388e3c;padding:8px 12px;background:#c8e6c9;color:#1B5E20;font-weight:700;text-align:left;',
+    td:       'border:1.5px solid #81c784;padding:8px 12px;vertical-align:top;',
+    tfoot_td: 'border:2px solid #388e3c;padding:8px 12px;background:#e8f5e9;font-weight:600;vertical-align:top;',
+    even_td:  '',
+  },
+  minimal: {
+    table:    'border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em;',
+    th:       'border:none;border-bottom:2px solid #4CAF50;padding:8px 12px;color:#2E7D32;font-weight:700;text-align:left;',
+    td:       'border:none;border-bottom:1px solid #eeeeee;padding:8px 12px;vertical-align:top;',
+    tfoot_td: 'border:none;border-top:2px solid #4CAF50;padding:8px 12px;font-weight:600;vertical-align:top;',
+    even_td:  '',
+  },
+  'dark-header': {
+    table:    'border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em;',
+    th:       'border:1px solid #1B5E20;padding:9px 14px;background:#1B5E20;color:white;font-weight:700;text-align:left;',
+    td:       'border:1px solid #dcedc8;padding:9px 14px;vertical-align:top;',
+    tfoot_td: 'border:1px solid #1B5E20;padding:9px 14px;background:#c8e6c9;font-weight:600;vertical-align:top;',
+    even_td:  'background:#f9fbe7;',
+  },
+  compact: {
+    table:    'border-collapse:collapse;width:100%;margin:8px 0;font-size:.83em;',
+    th:       'border:1px solid #a5d6a7;padding:5px 8px;background:#e8f5e9;color:#2E7D32;font-weight:700;text-align:left;',
+    td:       'border:1px solid #c8e6c9;padding:5px 8px;vertical-align:top;',
+    tfoot_td: 'border:1px solid #a5d6a7;padding:5px 8px;background:#f1f8e9;font-weight:600;vertical-align:top;',
+    even_td:  'background:#fafff9;',
+  },
+};
+
+/* ── Build grid picker ── */
+window.buildTablePicker = () => {
+  const picker = document.getElementById('table-size-picker');
+  picker.innerHTML = '';
+  for (let r = 1; r <= GRID_MAX; r++) {
+    const row = document.createElement('div');
+    row.className = 'table-size-row';
+    for (let c = 1; c <= GRID_MAX; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'table-size-cell';
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      cell.addEventListener('mouseover', () => hoverPicker(r, c));
+      cell.addEventListener('click',     () => clickPicker(r, c));
+      row.appendChild(cell);
+    }
+    picker.appendChild(row);
+  }
+  updatePickerHighlight(0, 0);
+};
+
+function hoverPicker(r, c) {
+  _tbl.hovRows = r;
+  _tbl.hovCols = c;
+  updatePickerHighlight(r, c);
+  document.getElementById('table-size-label').textContent = `${r} baris × ${c} kolom`;
+}
+
+function clickPicker(r, c) {
+  _tbl.rows = r;
+  _tbl.cols = c;
+  document.getElementById('tbl-rows').value = r;
+  document.getElementById('tbl-cols').value = c;
+  updateTablePreview();
+}
+
+function updatePickerHighlight(maxR, maxC) {
+  document.querySelectorAll('.table-size-cell').forEach(cell => {
+    const r = +cell.dataset.r, c = +cell.dataset.c;
+    cell.classList.toggle('hovered', r <= maxR && c <= maxC);
+  });
+}
+
+/* Reset hover jika mouse keluar dari grid */
+window.initPickerLeave = () => {
+  const picker = document.getElementById('table-size-picker');
+  picker.addEventListener('mouseleave', () => {
+    updatePickerHighlight(0, 0);
+    document.getElementById('table-size-label').textContent =
+      _tbl.rows && _tbl.cols ? `${_tbl.rows} baris × ${_tbl.cols} kolom` : '—';
+  });
+};
+
+/* ── Sinkron input manual → preview ── */
+window.syncPickerFromInput = () => {
+  const r = Math.min(Math.max(+document.getElementById('tbl-rows').value || 1, 1), 30);
+  const c = Math.min(Math.max(+document.getElementById('tbl-cols').value || 1, 1), 15);
+  _tbl.rows = r;
+  _tbl.cols = c;
+  /* Highlight grid hanya jika dalam range 8×8 */
+  if (r <= GRID_MAX && c <= GRID_MAX) updatePickerHighlight(r, c);
+  else updatePickerHighlight(0, 0);
+  document.getElementById('table-size-label').textContent = `${r} baris × ${c} kolom`;
+  updateTablePreview();
+};
+
+/* ── Pilih gaya ── */
+window.selectTableStyle = (btn, style) => {
+  document.querySelectorAll('.table-style-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _tbl.style = style;
+  updateTablePreview();
+};
+
+/* ── Generate HTML tabel ── */
+function generateTableHTML(rows, cols, hasHeader, hasFooter, style) {
+  const S = TABLE_STYLES[style] || TABLE_STYLES.default;
+  let html = `<table style="${S.table}">`;
+
+  /* Header */
+  if (hasHeader) {
+    html += '<thead><tr>';
+    for (let c = 1; c <= cols; c++) {
+      html += `<th style="${S.th}" contenteditable="true">Kolom ${c}</th>`;
+    }
+    html += '</tr></thead>';
+  }
+
+  /* Body */
+  const bodyStart = hasHeader ? 1 : 0;
+  const bodyEnd   = hasFooter ? rows - 1 : rows;
+  html += '<tbody>';
+  for (let r = bodyStart; r < bodyEnd; r++) {
+    const evenStyle = (r % 2 === 1) ? S.even_td : '';
+    html += '<tr>';
+    for (let c = 0; c < cols; c++) {
+      html += `<td style="${S.td}${evenStyle}" contenteditable="true">&nbsp;</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody>';
+
+  /* Footer */
+  if (hasFooter) {
+    html += '<tfoot><tr>';
+    for (let c = 0; c < cols; c++) {
+      html += `<td style="${S.tfoot_td}" contenteditable="true">Footer ${c + 1}</td>`;
+    }
+    html += '</tr></tfoot>';
+  }
+
+  html += '</table>';
+  return html;
+}
+
+/* ── Update preview ── */
+function updateTablePreview() {
+  const rows      = Math.min(+document.getElementById('tbl-rows').value || 3, 30);
+  const cols      = Math.min(+document.getElementById('tbl-cols').value || 3, 15);
+  const hasHeader = document.getElementById('tbl-has-header').checked;
+  const hasFooter = document.getElementById('tbl-has-footer').checked;
+
+  /* Batasi preview agar tidak berat */
+  const previewRows = Math.min(rows, 6);
+  const previewCols = Math.min(cols, 6);
+
+  const html = generateTableHTML(previewRows, previewCols, hasHeader, hasFooter, _tbl.style);
+  document.getElementById('table-preview').innerHTML = html;
+}
+
+/* ── Buka modal ── */
+window.openTableInsertModal = () => {
+  saveEditorSelection();
+
+  /* Reset nilai */
+  document.getElementById('tbl-rows').value  = 3;
+  document.getElementById('tbl-cols').value  = 3;
+  document.getElementById('tbl-has-header').checked = true;
+  document.getElementById('tbl-has-footer').checked = false;
+  _tbl.rows  = 3;
+  _tbl.cols  = 3;
+  _tbl.style = 'default';
+
+  document.querySelectorAll('.table-style-opt').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.table-style-opt[data-style="default"]').classList.add('selected');
+
+  updatePickerHighlight(3, 3);
+  document.getElementById('table-size-label').textContent = '3 baris × 3 kolom';
+  updateTablePreview();
+
+  document.getElementById('table-insert-modal').classList.add('open');
+};
+
+window.closeTableInsertModal = () => {
+  document.getElementById('table-insert-modal').classList.remove('open');
+};
+
+/* ── Sisipkan tabel ke editor ── */
+window.doInsertTable = () => {
+  const rows      = Math.min(Math.max(+document.getElementById('tbl-rows').value || 3, 1), 30);
+  const cols      = Math.min(Math.max(+document.getElementById('tbl-cols').value || 3, 1), 15);
+  const hasHeader = document.getElementById('tbl-has-header').checked;
+  const hasFooter = document.getElementById('tbl-has-footer').checked;
+
+  if (rows < 1 || cols < 1) {
+    showToast('Baris dan kolom minimal 1.', 'warning');
+    return;
+  }
+
+  const tableHTML = generateTableHTML(rows, cols, hasHeader, hasFooter, _tbl.style);
+
+  const editor = document.getElementById('post-body-editor');
+  editor.focus();
+  restoreEditorSelection();
+
+  /* Sisipkan tabel + baris kosong setelahnya agar kursor bisa berpindah */
+  document.execCommand('insertHTML', false, tableHTML + '<p><br></p>');
+
+  closeTableInsertModal();
+  showToast(`Tabel ${rows}×${cols} berhasil disisipkan.`, 'success');
+};
+
+/* ═══════════════════════════════
+   BOOT — langsung init Firebase
+═══════════════════════════════ */
 (function boot() {
   initFirebase();
 
@@ -2352,6 +2809,18 @@ window.showToast = (msg, type = '') => {
   });
   document.getElementById('delete-modal').addEventListener('click', function(e) {
     if (e.target === this) closeDeleteModal();
+  });
+  document.getElementById('table-insert-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeTableInsertModal();
+  });
+
+  /* Build visual grid picker 8×8 */
+  buildTablePicker();
+  initPickerLeave();
+
+  /* Live-update preview saat checkbox berubah */
+  ['tbl-has-header','tbl-has-footer'].forEach(id => {
+    document.getElementById(id).addEventListener('change', updateTablePreview);
   });
 })();
 </script>
