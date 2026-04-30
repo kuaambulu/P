@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4MXGN56X0"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-K4MXGN56X0');
+    gtag('config', 'G-K4MXGN56X0');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,54 +23,276 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
 <style>
-.page-hero{background:rgba(255,255,255,.95);text-align:center;padding:48px 20px 36px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.09);margin:24px 0 32px}
-.page-hero i{font-size:2.6em;color:#4CAF50;display:block;margin-bottom:12px}
-.page-hero h2{font-size:2em;color:#2E7D32;margin-bottom:8px}
-.page-hero p{color:#666;font-size:1em}
-.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.88em;color:#999;margin-bottom:24px;flex-wrap:wrap}
-.breadcrumb a{color:#4CAF50;text-decoration:none;font-weight:500}
-.breadcrumb a:hover{text-decoration:underline}
-.breadcrumb .sep{color:#ccc;font-size:.8em}
-.filter-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:28px}
-.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 18px;border:2px solid rgba(255,255,255,.5);border-radius:25px;background:rgba(255,255,255,.18);color:white;font-size:.82em;font-weight:600;cursor:pointer;transition:all .22s;backdrop-filter:blur(4px)}
-.filter-chip:hover{background:rgba(255,255,255,.32);border-color:white}
-.filter-chip.active{background:white;color:#2E7D32;border-color:white}
-.search-wrap{flex:1;min-width:200px;max-width:340px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:25px;padding:7px 16px;backdrop-filter:blur(4px)}
-.search-wrap i{color:rgba(255,255,255,.75);font-size:.9em}
-.search-wrap input{border:none;outline:none;background:transparent;color:white;font-size:.88em;flex:1;font-family:inherit}
-.search-wrap input::placeholder{color:rgba(255,255,255,.6)}
-.news-wrap{padding:0 0 60px}
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
-.news-card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.09);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .26s,box-shadow .26s}
-.news-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,.15)}
-.nc-thumb{width:100%;height:196px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);display:flex;align-items:center;justify-content:center;font-size:3em;color:#81C784;flex-shrink:0;overflow:hidden}
-.nc-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.nc-body{padding:18px 20px 14px;display:flex;flex-direction:column;flex:1}
-.nc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.nc-badge{padding:2px 11px;background:#e8f5e9;color:#2E7D32;border-radius:20px;font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.nc-date{font-size:.77em;color:#aaa;display:flex;align-items:center;gap:4px}
-.nc-title{font-size:1em;font-weight:700;color:#111;line-height:1.45;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.nc-excerpt{font-size:.85em;color:#666;line-height:1.6;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px}
-.nc-footer{border-top:1px solid #f0f0f0;padding-top:12px;display:flex;align-items:center;justify-content:space-between}
-.nc-author{font-size:.77em;color:#aaa;display:flex;align-items:center;gap:5px}
-.nc-read{font-size:.8em;font-weight:700;color:#4CAF50;display:flex;align-items:center;gap:5px}
-@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
-.skel-card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.skel-thumb{height:196px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:600px 100%;animation:shimmer 1.4s infinite linear}
-.skel-body{padding:18px 20px}
-.skel-line{height:12px;border-radius:6px;margin-bottom:10px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:600px 100%;animation:shimmer 1.4s infinite linear}
-.state-box{text-align:center;padding:56px 20px;background:rgba(255,255,255,.9);border-radius:14px;color:#888}
-.state-box i{font-size:2.8em;color:#c8e6c9;display:block;margin-bottom:14px}
-.state-box p{font-size:.95em}
-.pagination{display:flex;justify-content:center;gap:10px;margin-top:36px;flex-wrap:wrap}
-.page-btn{padding:8px 18px;border-radius:25px;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:white;font-size:.85em;font-weight:600;cursor:pointer;transition:all .22s;backdrop-filter:blur(4px)}
-.page-btn:hover,.page-btn.active{background:white;color:#2E7D32;border-color:white}
-.page-btn:disabled{opacity:.4;cursor:not-allowed}
-@media(max-width:768px){.page-hero h2{font-size:1.5em}.news-grid{grid-template-columns:1fr;gap:16px}.nc-thumb{height:170px}}
-@media(max-width:480px){.page-hero{padding:32px 14px 26px;margin:14px 0 22px}.filter-chip{padding:6px 14px;font-size:.78em}.search-wrap{max-width:100%}}
+/* ─── Page hero ─── */
+.page-hero {
+    background: rgba(255,255,255,.95);
+    text-align: center;
+    padding: 44px 20px 32px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.09);
+    margin: 20px 0 28px;
+}
+.page-hero i  { font-size: 2.4em; color: #4CAF50; display: block; margin-bottom: 10px; }
+.page-hero h2 { font-size: 1.85em; color: #2E7D32; margin-bottom: 6px; font-weight: 800; }
+.page-hero p  { color: #666; font-size: .95em; }
+
+/* ─── Breadcrumb ─── */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .88em;
+    color: #ccc;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+.breadcrumb a       { color: #81C784; text-decoration: none; font-weight: 500; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep    { color: rgba(255,255,255,.3); font-size: .8em; }
+
+/* ─── Filter bar ─── */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+}
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border: 2px solid rgba(255,255,255,.5);
+    border-radius: 25px;
+    background: rgba(255,255,255,.18);
+    color: white;
+    font-size: .82em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .22s;
+    backdrop-filter: blur(4px);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.filter-chip:hover  { background: rgba(255,255,255,.32); border-color: white; }
+.filter-chip.active { background: white; color: #2E7D32; border-color: white; }
+
+.search-wrap {
+    flex: 1;
+    min-width: 180px;
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,.18);
+    border: 2px solid rgba(255,255,255,.35);
+    border-radius: 25px;
+    padding: 7px 16px;
+    backdrop-filter: blur(4px);
+}
+.search-wrap i     { color: rgba(255,255,255,.8); font-size: .9em; flex-shrink: 0; }
+.search-wrap input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: .88em;
+    flex: 1;
+    min-width: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.search-wrap input::placeholder { color: rgba(255,255,255,.65); }
+
+/* ─── News grid ─── */
+.news-wrap { padding: 0 0 56px; }
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+}
+
+/* ─── News card ─── */
+.news-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,.09);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .26s, box-shadow .26s;
+}
+.news-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,.15); }
+
+.nc-thumb {
+    width: 100%;
+    height: 190px;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8em;
+    color: #81C784;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.nc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.nc-body {
+    padding: 16px 18px 13px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.nc-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+}
+.nc-badge {
+    padding: 2px 11px;
+    background: #e8f5e9;
+    color: #2E7D32;
+    border-radius: 20px;
+    font-size: .7em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+.nc-date {
+    font-size: .77em;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.nc-title {
+    font-size: .97em;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.45;
+    margin-bottom: 7px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.nc-excerpt {
+    font-size: .84em;
+    color: #666;
+    line-height: 1.58;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.nc-footer {
+    border-top: 1px solid #f0f0f0;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nc-author {
+    font-size: .76em;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.nc-read {
+    font-size: .8em;
+    font-weight: 700;
+    color: #4CAF50;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ─── Skeleton ─── */
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position:  600px 0; }
+}
+.skel-card { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.skel-thumb {
+    height: 190px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite linear;
+}
+.skel-body { padding: 16px 18px; }
+.skel-line {
+    height: 12px;
+    border-radius: 6px;
+    margin-bottom: 9px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite linear;
+}
+
+/* ─── State ─── */
+.state-box {
+    text-align: center;
+    padding: 52px 20px;
+    background: rgba(255,255,255,.9);
+    border-radius: 14px;
+    color: #888;
+}
+.state-box i { font-size: 2.6em; color: #c8e6c9; display: block; margin-bottom: 12px; }
+.state-box p { font-size: .92em; }
+
+/* ─── Pagination ─── */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+}
+.page-btn {
+    padding: 7px 16px;
+    border-radius: 25px;
+    border: 2px solid rgba(255,255,255,.5);
+    background: rgba(255,255,255,.15);
+    color: white;
+    font-size: .84em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .22s;
+    backdrop-filter: blur(4px);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.page-btn:hover,
+.page-btn.active  { background: white; color: #2E7D32; border-color: white; }
+.page-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .page-hero   { padding: 28px 14px 22px; margin: 12px 0 20px; }
+    .page-hero h2 { font-size: 1.45em; }
+    .news-grid   { grid-template-columns: 1fr; gap: 14px; }
+    .nc-thumb    { height: 170px; }
+    .search-wrap { max-width: 100%; }
+    .filter-chip { padding: 6px 13px; font-size: .78em; }
+}
+@media (max-width: 480px) {
+    .page-hero   { padding: 22px 12px 18px; margin: 10px 0 16px; }
+    .filter-bar  { gap: 6px; }
+    .filter-chip { padding: 5px 11px; font-size: .75em; }
+    .nc-thumb    { height: 155px; }
+}
 </style>
 </head>
 <body>
+
 <header>
     <div class="container">
         <div class="header-content">
@@ -90,22 +312,28 @@
                 <a href="index.html#informasi">Informasi</a>
                 <a href="index.html#kontak">Kontak</a>
             </nav>
-            <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Buka menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </div>
 </header>
+
 <main>
 <div class="container">
+
     <section class="page-hero">
         <i class="fas fa-newspaper"></i>
         <h2>Berita &amp; Kegiatan KUA Ambulu</h2>
         <p>Informasi terkini seputar kegiatan dan program KUA Kecamatan Ambulu</p>
     </section>
-    <!-- <nav class="breadcrumb">
+
+    <nav class="breadcrumb">
         <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
         <span class="sep"><i class="fas fa-chevron-right"></i></span>
         <span>Berita</span>
-    </nav> -->
+    </nav>
+
     <div class="filter-bar">
         <div class="search-wrap">
             <i class="fas fa-search"></i>
@@ -119,6 +347,7 @@
         <button class="filter-chip" data-cat="Inovasi">Inovasi</button>
         <button class="filter-chip" data-cat="Sosial">Sosial</button>
     </div>
+
     <div class="news-wrap">
         <div class="news-grid" id="news-grid">
             <div class="skel-card"><div class="skel-thumb"></div><div class="skel-body"><div class="skel-line" style="width:40%"></div><div class="skel-line" style="width:85%"></div><div class="skel-line" style="width:60%"></div></div></div>
@@ -127,8 +356,10 @@
         </div>
         <div class="pagination" id="pagination"></div>
     </div>
+
 </div>
 </main>
+
 <footer>
     <div class="container">
         <p><strong>KUA Ambulu</strong> - Kantor Urusan Agama</p>
@@ -136,131 +367,190 @@
         <p>&copy; 2025 KUA Ambulu. Semua Hak Dilindungi.</p>
     </div>
 </footer>
-<script>
-document.getElementById('menu-toggle').addEventListener('click',function(){document.getElementById('nav-menu').classList.toggle('active');});
-</script>
-<script type="module">
-import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query,
-         where, getDocs }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ─── Ambil config dari file terpusat (tidak bergantung localStorage) ───
+<script>
+/* ─── Nav toggle mobile ─── */
+(function () {
+    var btn = document.getElementById('menu-toggle');
+    var nav = document.getElementById('nav-menu');
+
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = nav.classList.toggle('active');
+        btn.setAttribute('aria-expanded', String(isOpen));
+        btn.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+    });
+
+    /* Tutup jika klik di luar */
+    document.addEventListener('click', function (e) {
+        if (!nav.contains(e.target) && !btn.contains(e.target)) {
+            nav.classList.remove('active');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.querySelector('i').className = 'fas fa-bars';
+        }
+    });
+
+    /* Tutup setelah pilih menu */
+    nav.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+            nav.classList.remove('active');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.querySelector('i').className = 'fas fa-bars';
+        });
+    });
+})();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, query,
+         where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 import { firebaseConfig } from "./js/firebase-config.js";
 
-const MONTHS=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const MONTHS   = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const PER_PAGE = 9;
-let _all=[], _filtered=[], _activeCat='', _searchTerm='', _page=1;
+let _all = [], _filtered = [], _activeCat = '', _searchTerm = '', _page = 1;
 
-function fmtDate(s){
-    if(!s) return '';
+function fmtDate(s) {
+    if (!s) return '';
     const d = new Date(s);
     return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-function cardHTML(p){
+function cardHTML(p) {
     const thumb = p.imageUrl
-        ? `<img src="${p.imageUrl.substring(0,300)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`
+        ? `<img src="${p.imageUrl.substring(0, 300)}" alt="${p.title}"
+               loading="lazy"
+               onerror="this.parentElement.innerHTML='<i class=\\'fas fa-mosque\\'></i>'">`
         : `<i class="fas fa-mosque"></i>`;
-    return `<a class="news-card" href="post/?id=${p.id}">
+    return `
+    <a class="news-card" href="post/?id=${p.id}">
         <div class="nc-thumb">${thumb}</div>
         <div class="nc-body">
             <div class="nc-meta">
-                <span class="nc-badge">${p.category||'Berita'}</span>
-                <span class="nc-date"><i class="fas fa-calendar-alt"></i>${fmtDate(p.date)}</span>
+                <span class="nc-badge">${p.category || 'Berita'}</span>
+                <span class="nc-date">
+                    <i class="fas fa-calendar-alt"></i>${fmtDate(p.date)}
+                </span>
             </div>
             <h2 class="nc-title">${p.title}</h2>
-            <p class="nc-excerpt">${p.excerpt||''}</p>
+            <p class="nc-excerpt">${p.excerpt || ''}</p>
             <div class="nc-footer">
-                <span class="nc-author"><i class="fas fa-user-circle"></i>${p.author||'KUA Ambulu'}</span>
+                <span class="nc-author">
+                    <i class="fas fa-user-circle"></i>${p.author || 'KUA Ambulu'}
+                </span>
                 <span class="nc-read">Baca <i class="fas fa-arrow-right"></i></span>
             </div>
         </div>
     </a>`;
 }
 
-function applyFilters(){
+function applyFilters() {
     _filtered = _all.filter(p => {
         const mc = !_activeCat  || p.category === _activeCat;
         const ms = !_searchTerm || p.title.toLowerCase().includes(_searchTerm)
-                                || (p.excerpt||'').toLowerCase().includes(_searchTerm);
+                                || (p.excerpt || '').toLowerCase().includes(_searchTerm);
         return mc && ms;
     });
     _page = 1;
     render();
 }
 
-function render(){
+function render() {
     const grid  = document.getElementById('news-grid');
     const pgDiv = document.getElementById('pagination');
     const start = (_page - 1) * PER_PAGE;
     const slice = _filtered.slice(start, start + PER_PAGE);
     const total = Math.ceil(_filtered.length / PER_PAGE);
 
-    if(!_filtered.length){
-        grid.innerHTML  = `<div class="state-box" style="grid-column:1/-1"><i class="fas fa-search"></i><p>Tidak ada berita yang sesuai.</p></div>`;
+    if (!_filtered.length) {
+        grid.innerHTML  = `<div class="state-box" style="grid-column:1/-1">
+            <i class="fas fa-search"></i><p>Tidak ada berita yang sesuai.</p>
+        </div>`;
         pgDiv.innerHTML = '';
         return;
     }
+
     grid.innerHTML = slice.map(cardHTML).join('');
 
-    if(total <= 1){ pgDiv.innerHTML = ''; return; }
-    let btns = `<button class="page-btn" ${_page===1?'disabled':''} onclick="_goPage(${_page-1})"><i class="fas fa-chevron-left"></i></button>`;
-    for(let i=1;i<=total;i++) btns += `<button class="page-btn ${i===_page?'active':''}" onclick="_goPage(${i})">${i}</button>`;
-    btns += `<button class="page-btn" ${_page===total?'disabled':''} onclick="_goPage(${_page+1})"><i class="fas fa-chevron-right"></i></button>`;
+    if (total <= 1) { pgDiv.innerHTML = ''; return; }
+
+    let btns = `<button class="page-btn" ${_page === 1 ? 'disabled' : ''}
+                        onclick="_goPage(${_page - 1})">
+                    <i class="fas fa-chevron-left"></i>
+                </button>`;
+    for (let i = 1; i <= total; i++) {
+        btns += `<button class="page-btn ${i === _page ? 'active' : ''}"
+                         onclick="_goPage(${i})">${i}</button>`;
+    }
+    btns += `<button class="page-btn" ${_page === total ? 'disabled' : ''}
+                     onclick="_goPage(${_page + 1})">
+                 <i class="fas fa-chevron-right"></i>
+             </button>`;
     pgDiv.innerHTML = btns;
 }
 
-window._goPage = n => { _page = n; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+window._goPage = function (n) {
+    _page = n;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
-// Filter chip & search listeners
-document.querySelectorAll('.filter-chip').forEach(btn => {
-    btn.addEventListener('click', () => {
+/* Filter chips */
+document.querySelectorAll('.filter-chip').forEach(function (btn) {
+    btn.addEventListener('click', function () {
         document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         _activeCat = btn.dataset.cat;
         applyFilters();
     });
 });
+
+/* Search */
 let _st;
-document.getElementById('search-input').addEventListener('input', e => {
+document.getElementById('search-input').addEventListener('input', function (e) {
     clearTimeout(_st);
-    _st = setTimeout(() => { _searchTerm = e.target.value.trim().toLowerCase(); applyFilters(); }, 300);
+    _st = setTimeout(function () {
+        _searchTerm = e.target.value.trim().toLowerCase();
+        applyFilters();
+    }, 300);
 });
 
-// ─── Load data dari Firestore ───────────────────────────────────────────
-// CATATAN: query hanya pakai where('status') tanpa orderBy untuk menghindari
-// kebutuhan composite index di Firestore. Pengurutan dilakukan di sisi klien.
-(async function load(){
+/* Load Firestore */
+(async function load() {
     const grid = document.getElementById('news-grid');
     try {
         const app  = initializeApp(firebaseConfig, 'berita-page');
         const db   = getFirestore(app);
-
-        // Tidak pakai orderBy agar tidak butuh composite index Firestore.
-        // Pengurutan dilakukan secara lokal di bawah.
-        const q    = query(
-            collection(db, 'posts'),
-            where('status', '==', 'published')
-        );
+        const q    = query(collection(db, 'posts'), where('status', '==', 'published'));
         const snap = await getDocs(q);
 
-        if(snap.empty){
-            grid.innerHTML = `<div class="state-box" style="grid-column:1/-1"><i class="fas fa-newspaper"></i><p>Belum ada berita yang dipublikasikan.</p></div>`;
+        if (snap.empty) {
+            grid.innerHTML = `<div class="state-box" style="grid-column:1/-1">
+                <i class="fas fa-newspaper"></i>
+                <p>Belum ada berita yang dipublikasikan.</p>
+            </div>`;
             return;
         }
 
-        // Urutkan secara lokal: prioritas field 'date', fallback ke 'createdAt'
         _all = snap.docs
             .map(d => ({ id: d.id, ...d.data() }))
             .sort((a, b) => {
-                const da = a.date ? new Date(a.date) : (a.createdAt?.toDate?.() || new Date(0));
+                const da  = a.date ? new Date(a.date) : (a.createdAt?.toDate?.() || new Date(0));
                 const db_ = b.date ? new Date(b.date) : (b.createdAt?.toDate?.() || new Date(0));
-                return db_ - da; // desc
+                return db_ - da;
             });
 
         applyFilters();
-    } catch(e) {
-        grid.innerHTML = `<div class="state-box" style="grid-column:1/-1"><i class="fas fa-exclamation-triangle" style="color:#FCA5A5"></i><p>Gagal memuat berita.<br><small style="color:#aaa">${e.message}</small></p></div>`;
+
+    } catch (e) {
+        grid.innerHTML = `<div class="state-box" style="grid-column:1/-1">
+            <i class="fas fa-exclamation-triangle" style="color:#FCA5A5"></i>
+            <p>Gagal memuat berita.<br>
+               <small style="color:#aaa">${e.message}</small>
+            </p>
+        </div>`;
     }
 })();
 </script>
