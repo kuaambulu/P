@@ -18,24 +18,28 @@ body {
     padding: 0 15px;
 }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    HEADER
-───────────────────────────────────────── */
+───────────────────────────────────── */
 header {
     background: rgba(255, 255, 255, 0.97);
-    padding: 16px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
+/* header > .container > .header-content */
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative; /* penting agar nav absolute tidak overflow */
+    padding: 14px 0;
+    flex-wrap: wrap;          /* KUNCI: biarkan nav turun ke baris kedua */
+    gap: 0;
 }
+
+.logo-section { flex: 1 1 auto; }
 
 .logo-group {
     display: flex;
@@ -44,68 +48,69 @@ header {
 }
 
 .kemenag-logo {
-    height: 56px;
+    height: 54px;
     width: auto;
     object-fit: contain;
 }
 
 .text-section h1 {
-    font-size: 1.6em;
+    font-size: 1.55em;
     color: #2E7D32;
-    margin-bottom: 2px;
     font-weight: 800;
+    line-height: 1.15;
 }
 
 .text-section p {
-    font-size: 0.82em;
+    font-size: 0.8em;
     color: #666;
+    margin-top: 1px;
 }
 
-/* ─────────────────────────────────────────
-   NAVIGASI — DESKTOP
-───────────────────────────────────────── */
+/* ─────────────────────────────────────
+   NAV — DESKTOP (≥769px)
+───────────────────────────────────── */
 nav {
     display: flex;
-    gap: 28px;
+    gap: 26px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 nav a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
-    font-size: 0.95em;
-    transition: color 0.25s;
+    font-size: 0.93em;
     white-space: nowrap;
+    transition: color 0.22s;
 }
 
-nav a:hover {
-    color: #4CAF50;
-}
+nav a:hover { color: #4CAF50; }
 
-/* ─────────────────────────────────────────
-   HAMBURGER TOGGLE
-───────────────────────────────────────── */
+/* ─────────────────────────────────────
+   HAMBURGER
+───────────────────────────────────── */
 .menu-toggle {
-    display: none;           /* tersembunyi di desktop */
+    display: none;
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 1.45em;
     cursor: pointer;
     color: #2E7D32;
-    padding: 4px 8px;
+    padding: 5px 8px;
     border-radius: 6px;
-    transition: background 0.2s;
     line-height: 1;
+    transition: background 0.2s;
+    flex-shrink: 0;
 }
 .menu-toggle:hover { background: #e8f5e9; }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    HERO SECTION
-───────────────────────────────────────── */
+───────────────────────────────────── */
 .hero {
     background: rgba(255, 255, 255, 0.95);
-    padding: 56px 0;
+    padding: 52px 0;
     text-align: center;
     margin-top: 20px;
     border-radius: 15px;
@@ -115,29 +120,27 @@ nav a:hover {
 .hero h2 {
     font-size: 2.4em;
     color: #2E7D32;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     font-weight: 800;
 }
 
 .hero p {
     font-size: 1.1em;
     color: #666;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
 }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    SERVICES HUB
-───────────────────────────────────────── */
-.services-hub {
-    padding: 56px 0;
-}
+───────────────────────────────────── */
+.services-hub { padding: 52px 0; }
 
 .section-title {
     text-align: center;
     font-size: 2em;
     color: white;
-    margin-bottom: 44px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.2);
     font-weight: 800;
 }
 
@@ -145,7 +148,7 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 22px;
-    margin-bottom: 44px;
+    margin-bottom: 40px;
 }
 
 .service-card {
@@ -153,23 +156,23 @@ nav a:hover {
     border-radius: 14px;
     padding: 28px;
     text-align: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 6px 20px rgba(0,0,0,.12);
     transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
 
 .service-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 12px 32px rgba(0,0,0,.18);
 }
 
 .service-icon {
     font-size: 2.8em;
     color: #4CAF50;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .service-card h3 {
-    font-size: 1.25em;
+    font-size: 1.2em;
     color: #2E7D32;
     margin-bottom: 12px;
     font-weight: 700;
@@ -177,8 +180,8 @@ nav a:hover {
 
 .service-card p {
     color: #666;
-    margin-bottom: 18px;
-    font-size: 0.92em;
+    margin-bottom: 16px;
+    font-size: 0.9em;
     line-height: 1.55;
 }
 
@@ -189,12 +192,12 @@ nav a:hover {
     justify-content: center;
 }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    BUTTONS
-───────────────────────────────────────── */
+───────────────────────────────────── */
 .btn {
     display: inline-block;
-    padding: 11px 28px;
+    padding: 11px 26px;
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
     text-decoration: none;
@@ -203,166 +206,139 @@ nav a:hover {
     transition: all 0.25s;
     border: none;
     cursor: pointer;
-    font-size: 0.95em;
+    font-size: 0.93em;
     font-family: inherit;
 }
 
-.btn:hover {
-    background: linear-gradient(135deg, #45a049, #3d8b40);
-    transform: scale(1.04);
-}
+.btn:hover { background: linear-gradient(135deg, #45a049, #3d8b40); transform: scale(1.04); }
 
-.btn-secondary {
-    background: linear-gradient(135deg, #2196F3, #1976D2);
-}
+.btn-secondary { background: linear-gradient(135deg, #2196F3, #1976D2); }
+.btn-secondary:hover { background: linear-gradient(135deg, #1976D2, #1565C0); }
 
-.btn-secondary:hover {
-    background: linear-gradient(135deg, #1976D2, #1565C0);
-}
-
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    INFO SECTION
-───────────────────────────────────────── */
+───────────────────────────────────── */
 .info-section {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 36px;
+    background: rgba(255,255,255,.95);
+    padding: 34px;
     border-radius: 14px;
-    margin-bottom: 36px;
+    margin-bottom: 34px;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
-    margin-top: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+    margin-top: 22px;
 }
 
 .info-card {
-    padding: 18px;
+    padding: 16px;
     background: #f0f7f0;
     border-left: 5px solid #4CAF50;
     border-radius: 8px;
 }
 
-.info-card h4 {
-    color: #2E7D32;
-    margin-bottom: 8px;
-    font-size: 1.05em;
-}
-
-.info-card p {
-    color: #555;
-    font-size: 0.92em;
-}
+.info-card h4 { color: #2E7D32; margin-bottom: 6px; font-size: 1em; }
+.info-card p  { color: #555; font-size: 0.9em; }
 
 .contact-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 18px;
-    margin-top: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
 }
 
 .contact-item {
-    padding: 14px;
+    padding: 13px;
     background: white;
     border-radius: 8px;
     border-top: 3px solid #4CAF50;
-    font-size: 0.92em;
+    font-size: 0.9em;
 }
 
-.contact-item strong {
-    color: #2E7D32;
-}
+.contact-item strong { color: #2E7D32; }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    SOCIAL LINKS
-───────────────────────────────────────── */
+───────────────────────────────────── */
 .social-hub {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-top: 28px;
+    margin-top: 26px;
 }
 
 .social-btn {
     display: flex;
     align-items: center;
     gap: 7px;
-    padding: 10px 18px;
+    padding: 9px 16px;
     background: white;
     border: 2px solid #4CAF50;
     border-radius: 25px;
     text-decoration: none;
     color: #4CAF50;
     font-weight: 600;
-    font-size: 0.9em;
-    transition: all 0.25s;
+    font-size: 0.88em;
+    transition: all 0.22s;
 }
 
-.social-btn:hover {
-    background: #4CAF50;
-    color: white;
-}
+.social-btn:hover { background: #4CAF50; color: white; }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────
    FOOTER
-───────────────────────────────────────── */
+───────────────────────────────────── */
 footer {
-    background: rgba(0, 0, 0, 0.88);
+    background: rgba(0,0,0,.88);
     color: white;
     text-align: center;
-    padding: 28px 0;
-    margin-top: 56px;
-    font-size: 0.9em;
+    padding: 26px 0;
+    margin-top: 52px;
+    font-size: 0.88em;
 }
 
 footer p { margin: 4px 0; }
 
-/* ─────────────────────────────────────────
-   KONTEN ARTIKEL (post-body) — PERBAIKAN FONT
-   Konten dari Firebase bisa membawa font-family inline,
-   di-override paksa agar konsisten di semua perangkat.
-───────────────────────────────────────── */
+/* ─────────────────────────────────────
+   KONTEN ARTIKEL — reset font paksa
+   Konten dari Firebase/contenteditable bisa
+   menyimpan font-family inline. Override semua.
+───────────────────────────────────── */
 .post-body,
-.post-body *:not(code):not(pre):not(.keep-font) {
+.post-body * {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    max-width: 100%;
 }
 
-.post-body p    { margin-bottom: 14px; line-height: 1.78; }
-.post-body h2   { font-size: 1.22em; color: #2E7D32; margin: 24px 0 9px; padding-bottom: 5px; border-bottom: 2px solid #e8f5e9; }
-.post-body h3   { font-size: 1.05em; color: #1a1a1a; margin: 18px 0 7px; font-weight: 700; }
-.post-body ul,
-.post-body ol   { padding-left: 22px; margin-bottom: 14px; }
-.post-body li   { margin-bottom: 5px; }
-.post-body blockquote {
-    background: #f0f7f0;
-    border-left: 5px solid #4CAF50;
-    border-radius: 0 8px 8px 0;
-    margin: 18px 0;
-    padding: 13px 18px;
-    color: #444;
-    font-style: italic;
-}
-.post-body strong { color: #2E7D32; }
-.post-body a      { color: #4CAF50; text-decoration: underline; }
-.post-body img    { max-width: 100%; border-radius: 10px; margin: 10px 0; height: auto; }
+.post-body p              { margin-bottom: 13px; line-height: 1.78; }
+.post-body h2             { font-size: 1.2em; color: #2E7D32; margin: 22px 0 8px; padding-bottom: 5px; border-bottom: 2px solid #e8f5e9; }
+.post-body h3             { font-size: 1.03em; color: #111; margin: 16px 0 6px; font-weight: 700; }
+.post-body ul, .post-body ol { padding-left: 20px; margin-bottom: 13px; }
+.post-body li             { margin-bottom: 4px; }
+.post-body blockquote     { background: #f0f7f0; border-left: 5px solid #4CAF50; border-radius: 0 8px 8px 0; margin: 16px 0; padding: 12px 16px; color: #444; font-style: italic; }
+.post-body strong         { color: #2E7D32; }
+.post-body a              { color: #4CAF50; text-decoration: underline; word-break: break-all; }
+.post-body img            { max-width: 100%; height: auto; border-radius: 10px; margin: 10px 0; display: block; }
 
-/* Tabel dari editor */
+/* Tabel responsif */
 .post-body table {
     border-collapse: collapse;
     width: 100%;
-    margin: 14px 0;
-    font-size: 0.92em;
-    overflow-x: auto;
+    margin: 12px 0;
+    font-size: .88em;
     display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .post-body table td,
 .post-body table th {
     border: 1.5px solid #c8e6c9;
-    padding: 7px 11px;
+    padding: 7px 10px;
     vertical-align: top;
-    word-break: break-word;
+    white-space: nowrap;
+    min-width: 70px;
 }
 .post-body table th {
     background: #e8f5e9;
@@ -370,123 +346,126 @@ footer p { margin: 4px 0; }
     font-weight: 700;
     text-align: left;
 }
+.post-body table tr:nth-child(even) td { background: #f9fffe; }
 
-/* ─────────────────────────────────────────
-   RESPONSIVE — TABLET & MOBILE
-───────────────────────────────────────── */
+/* =====================================================
+   RESPONSIVE MOBILE — PENDEKATAN BARU UNTUK NAV
+   
+   Strategi: flex-wrap pada .header-content
+   Nav jadi baris penuh di bawah logo+toggle.
+   TIDAK pakai position:absolute sehingga nav
+   tidak bisa overlay konten halaman.
+===================================================== */
 @media (max-width: 768px) {
 
-    /* ── Hamburger ── */
-    .menu-toggle {
-        display: block;   /* tampil di mobile */
+    /* Hamburger tampil */
+    .menu-toggle { display: block; }
+
+    /* header-content wrap ke 2 baris:
+       baris 1: logo + toggle
+       baris 2: nav (full width, tersembunyi default) */
+    .header-content {
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 12px 0 0;   /* bottom padding diatur nav */
     }
 
-    /* ── Nav: tersembunyi default, muncul saat .active ── */
+    .logo-section {
+        flex: 1 1 auto;
+        padding-bottom: 12px;
+    }
+
+    .menu-toggle {
+        order: 2;
+        align-self: center;
+        margin-bottom: 12px;
+    }
+
+    /* NAV: baris kedua, tersembunyi default */
     nav {
-        display: none;                  /* KUNCI: nav tersembunyi default */
-        position: absolute;
-        top: 100%;                      /* tepat di bawah header-content */
-        left: 0;
-        right: 0;
+        display: none;            /* TERSEMBUNYI saat tidak aktif */
+        order: 3;
+        flex-basis: 100%;         /* lebar penuh */
+        width: 100%;
         flex-direction: column;
-        background: white;
-        padding: 16px 20px;
-        gap: 4px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        border-top: 2px solid #e8f5e9;
-        z-index: 999;
+        gap: 2px;
+        background: #f8fdf8;
+        border-top: 2px solid #c8e6c9;
+        padding: 8px 0 12px;
+        margin: 0 -15px;          /* negatif padding container */
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* NAV AKTIF: tampil */
+    nav.active {
+        display: flex;
     }
 
     nav a {
         display: block;
         padding: 10px 12px;
         border-radius: 8px;
-        font-size: 0.95em;
+        font-size: 0.93em;
         font-weight: 600;
+        color: #333;
+        white-space: normal;
     }
 
-    nav a:hover { background: #f0f7f0; }
+    nav a:hover,
+    nav a:active { background: #e8f5e9; color: #2E7D32; }
 
-    nav.active {
-        display: flex;   /* tampil saat toggle */
-    }
+    /* Ukuran umum mobile */
+    .logo-group      { gap: 10px; }
+    .kemenag-logo    { height: 44px; }
+    .text-section h1 { font-size: 1.2em; }
+    .text-section p  { font-size: 0.74em; }
 
-    /* ── Wrapper header harus relative agar nav absolute bekerja ── */
-    .header-content {
-        flex-wrap: nowrap;
-        position: relative;
-    }
+    .hero            { padding: 34px 0; margin-top: 14px; }
+    .hero h2         { font-size: 1.55em; }
+    .hero p          { font-size: 0.93em; }
 
-    .logo-group { gap: 10px; }
+    .section-title   { font-size: 1.45em; margin-bottom: 24px; }
 
-    .kemenag-logo { height: 46px; }
+    .services-grid   { grid-template-columns: 1fr; gap: 14px; }
+    .service-card    { padding: 20px; }
 
-    .text-section h1 { font-size: 1.25em; }
-    .text-section p  { font-size: 0.75em; }
+    .button-group    { flex-direction: column; gap: 8px; }
+    .btn             { width: 100%; text-align: center; }
 
-    .hero { padding: 36px 0; margin-top: 14px; }
-    .hero h2 { font-size: 1.6em; }
-    .hero p  { font-size: 0.95em; }
+    .info-grid       { grid-template-columns: 1fr; gap: 12px; }
+    .contact-info    { grid-template-columns: 1fr; gap: 12px; }
+    .social-hub      { gap: 8px; }
+    .social-btn      { padding: 8px 13px; font-size: 0.83em; }
+    .info-section    { padding: 18px; }
 
-    .section-title { font-size: 1.5em; margin-bottom: 26px; }
-
-    .services-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .service-card { padding: 20px; }
-
-    .button-group {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .btn {
-        width: 100%;
-        text-align: center;
-    }
-
-    .info-grid    { grid-template-columns: 1fr; gap: 12px; }
-    .contact-info { grid-template-columns: 1fr; gap: 12px; }
-
-    .social-hub  { gap: 8px; }
-    .social-btn  { padding: 9px 14px; font-size: 0.85em; }
-
-    .info-section { padding: 20px; }
-
-    /* post-body mobile */
-    .post-body         { font-size: 0.95em; }
-    .post-body table   { font-size: 0.82em; }
+    .post-body       { font-size: 0.93em; }
+    .post-body table { font-size: 0.8em; }
 }
 
 @media (max-width: 480px) {
-    .container { padding: 0 10px; }
+    .container       { padding: 0 10px; }
+    header           { /* padding diatur .header-content */ }
+    .kemenag-logo    { height: 38px; }
+    .text-section h1 { font-size: 1.05em; }
+    .text-section p  { display: none; }
 
-    header { padding: 12px 0; }
+    .hero            { padding: 28px 0; margin-top: 10px; }
+    .hero h2         { font-size: 1.3em; }
+    .hero p          { font-size: 0.86em; }
 
-    .kemenag-logo  { height: 40px; }
-    .text-section h1 { font-size: 1.1em; }
-    .text-section p  { display: none; }   /* sembunyikan tagline di layar sempit */
-
-    .hero { padding: 32px 0; margin-top: 12px; }
-    .hero h2 { font-size: 1.35em; }
-    .hero p  { font-size: 0.88em; }
-
-    .section-title   { font-size: 1.3em; }
-    .service-icon    { font-size: 2.3em; }
-    .service-card h3 { font-size: 1.05em; }
-
-    .info-section { padding: 16px; }
-
-    .btn { padding: 10px 20px; font-size: 0.88em; }
+    .section-title   { font-size: 1.25em; }
+    .service-icon    { font-size: 2.2em; }
+    .service-card h3 { font-size: 1.02em; }
+    .info-section    { padding: 14px; }
+    .btn             { padding: 9px 18px; font-size: 0.86em; }
 }
 
-/* ─── Tablet khusus ─── */
+/* ─── Tablet ─── */
 @media (min-width: 769px) and (max-width: 1024px) {
-    .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero h2       { font-size: 2em; }
-    .section-title { font-size: 1.75em; }
-    .kemenag-logo  { height: 50px; }
-    .text-section h1 { font-size: 1.5em; }
+    .services-grid   { grid-template-columns: repeat(2, 1fr); }
+    .hero h2         { font-size: 2em; }
+    .section-title   { font-size: 1.75em; }
+    .kemenag-logo    { height: 50px; }
+    .text-section h1 { font-size: 1.45em; }
 }
